@@ -3,6 +3,55 @@
 #include "neurona.h"
 #include "conexion.h"
 
+Neurona::Neurona(float umbral, Tipo tipo)
+{
+    this->umbral = umbral;
+    this->tipo = tipo;
+    conexiones = std::vector<Conexion>();
+
+    if (tipo == Directa) { // TODO
+        salida_activa = 1;
+        salida_inactiva = 0;
+    }
+    else if (tipo == Sesgo) { // TODO
+        salida_activa = 1;
+        salida_inactiva = 0;
+    }
+    else if (tipo == McCulloch) {
+        salida_activa = 1;
+        salida_inactiva = 0;
+    }
+    else {
+        std::cout << "Eso no existe loco" << std::endl;
+    }
+
+    valor = 0;
+    f_x = 0;
+}
+
+Neurona::Neurona(float umbral, float salida_activa, float salida_inactiva, Tipo tipo)
+{
+    this->umbral = umbral;
+    this->tipo = tipo;
+    this->salida_activa = salida_activa;
+    this->salida_inactiva = salida_inactiva;
+
+    valor = 0;
+    f_x = 0;
+}
+
+Neurona::~Neurona() {}
+
+void Neurona::inicializar(float valor)
+{
+    this->valor = valor;
+}
+
+void Neurona::conectar(Neurona *neurona, float peso)
+{
+    conexiones.push_back(Conexion(peso, neurona));
+}
+
 void Neurona::disparar()
 {
     if (tipo == Directa)

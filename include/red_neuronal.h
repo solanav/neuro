@@ -9,12 +9,12 @@ public:
     RedNeuronal();
     virtual ~RedNeuronal();
     void Inicializar();
-    void Anadir(Capa capa);
+    void Anadir(Capa *capa);
     void Disparar();
     void Propagar();
 
 public:
-    std::vector<Capa> capas;
+    std::vector<Capa *> capas;
 };
 
 #endif
