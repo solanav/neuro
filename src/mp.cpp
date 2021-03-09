@@ -49,7 +49,11 @@ int main(int argc, char *argv[])
     a13.conectar(&y, 1);
 
     std::ifstream infile("entradas.txt");
+    std::ofstream output;
+    output.open("results_mp.txt");
     float a, b, c;
+
+    output << "x1\tx2\tx3\ta12\ta23\ta13\ty" << std::endl;
     while (infile >> a >> b >> c)
     {
         x1.inicializar(a);
@@ -61,6 +65,9 @@ int main(int argc, char *argv[])
         red.Propagar();
 
         std::cout << y.f_x << std::endl;
+        output << x1.f_x << "\t" << x2.f_x << "\t" << x3.f_x << "\t";
+        output << a12.f_x << "\t" << a23.f_x << "\t" << a13.f_x << "\t";
+        output << y.f_x << std::endl;
     }
 
     for (int i = 0; i < red.capas.size() - 1; i++)
@@ -69,6 +76,9 @@ int main(int argc, char *argv[])
         red.Inicializar();
         red.Propagar();
         std::cout << y.f_x << std::endl;
+        output << "-\t-\t-\t";
+        output << a12.f_x << "\t" << a23.f_x << "\t" << a13.f_x << "\t";
+        output << y.f_x << std::endl;
     }
 
     return 0;
