@@ -18,8 +18,8 @@ ejecuta_mp:
 clean:
 	rm -f *.o mp
 
-mp: mp.o neurona.o conexion.o capa.o red_neuronal.o
-	$(CC) $(LDFLAGS) -o mp mp.o neurona.o conexion.o capa.o red_neuronal.o $(LDLIBS)
+mp: mp.o neurona.o conexion.o capa.o red_neuronal.o lector.o
+	$(CC) $(LDFLAGS) -o mp mp.o neurona.o conexion.o capa.o red_neuronal.o lector.o $(LDLIBS)
 
 mp.o: $(SRC)mp.cpp $(INCLUDE)neurona.h $(INCLUDE)conexion.h $(INCLUDE)red_neuronal.h $(INCLUDE)capa.h
 	$(CC) $(CPPFLAGS) -c $(SRC)mp.cpp
@@ -35,3 +35,6 @@ capa.o: $(SRC)capa.cpp $(INCLUDE)capa.h $(INCLUDE)neurona.h
 
 red_neuronal.o: $(SRC)red_neuronal.cpp $(INCLUDE)red_neuronal.h $(INCLUDE)capa.h
 	$(CC) $(CPPFLAGS) -c $(SRC)red_neuronal.cpp
+
+lector.o: $(SRC)lector.cpp $(INCLUDE)lector.h
+	$(CC) $(CPPFLAGS) -c $(SRC)lector.cpp

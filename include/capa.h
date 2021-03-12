@@ -4,6 +4,9 @@
 #include <vector>
 #include "neurona.h"
 
+#define PESO_CERO 0
+#define PESO_PEQUENO 1
+
 class Capa {
 public:
     Capa();

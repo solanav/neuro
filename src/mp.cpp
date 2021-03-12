@@ -5,6 +5,7 @@
 #include "conexion.h"
 #include "capa.h"
 #include "red_neuronal.h"
+#include "lector.h"
 
 int main(int argc, char *argv[])
 {
@@ -64,7 +65,6 @@ int main(int argc, char *argv[])
         red.Inicializar();
         red.Propagar();
 
-        std::cout << y.f_x << std::endl;
         output << x1.f_x << "\t" << x2.f_x << "\t" << x3.f_x << "\t";
         output << a12.f_x << "\t" << a23.f_x << "\t" << a13.f_x << "\t";
         output << y.f_x << std::endl;
@@ -75,11 +75,14 @@ int main(int argc, char *argv[])
         red.Disparar();
         red.Inicializar();
         red.Propagar();
-        std::cout << y.f_x << std::endl;
         output << "-\t-\t-\t";
         output << a12.f_x << "\t" << a23.f_x << "\t" << a13.f_x << "\t";
         output << y.f_x << std::endl;
     }
+
+    Lector l;
+
+    l.leer1("and.txt", 0.5);
 
     return 0;
 }

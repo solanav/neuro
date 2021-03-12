@@ -21,18 +21,21 @@ void Capa::Anadir(Neurona *neurona)
 
 void Capa::Conectar(Capa *capa, int modo_peso)
 {
-    std::cout << "modo_peso no esta hecho todavia" << std::endl;
-
     for (auto& neurona : capa->neuronas)
         Conectar(neurona, modo_peso);
 }
 
 void Capa::Conectar(Neurona *neurona, int modo_peso)
 {
-    std::cout << "modo_peso no esta hecho todavia" << std::endl;
+    
+    if (modo_peso == PESO_CERO)
+        for (auto& self_neurona : this->neuronas)
+            self_neurona->conectar(neurona, 0);
 
-    for (auto& self_neurona : this->neuronas)
-        self_neurona->conectar(neurona, 0);
+    else if (modo_peso == PESO_PEQUENO)
+        for (auto& self_neurona : this->neuronas)
+            self_neurona->conectar(neurona, 0.1 + (float(rand()) / (float(RAND_MAX) + 0.5)));
+
 }
 
 void Capa::Disparar()
