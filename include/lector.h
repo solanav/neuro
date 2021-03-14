@@ -2,6 +2,7 @@
 #define LECTOR_H
 
 #include <vector>
+#include <string>
 
 class Lector {
 public:
@@ -19,7 +20,7 @@ public:
     std::vector<std::vector<float>> salidas_entrenamiento;
     std::vector<std::vector<float>> salidas_test;
 private:
-    std::vector<char *> data;
+    std::vector<std::string> data;
     int num_entradas;
     int num_salidas;
 };
