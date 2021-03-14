@@ -80,3 +80,76 @@ void Lector::leer1(char *fichero, float por)
     }
     
 }
+
+void Lector::leer2(char * fichero){
+    leer(fichero);
+
+    std::string s_aux;
+    float f_aux;
+    std::vector<float> v_aux = std::vector<float>();
+
+    for (int i = 0; i < data.size(); i++)
+    {
+        s_aux = data.back();
+        data.pop_back();
+        for(int j = 0; j < num_entradas; j++){
+            f_aux = std::stof(s_aux.substr(0, s_aux.find(' ')));
+            v_aux.push_back(f_aux);
+        }
+        entradas_entrenamiento.push_back(v_aux);
+        entradas_test.push_back(v_aux);
+        v_aux.clear();
+        for(int j = 0; j < num_salidas; j++){
+            f_aux = std::stof(s_aux.substr(0, s_aux.find(' ')));
+            v_aux.push_back(f_aux);
+        }
+        salidas_entrenamiento.push_back(v_aux);
+        salidas_test.push_back(v_aux);
+        v_aux.clear();
+    }
+}
+
+void Lector::leer3(char *fichero_entreno, char *fichero_test){
+    leer(fichero_entreno);
+
+    std::string s_aux;
+    float f_aux;
+    std::vector<float> v_aux = std::vector<float>();
+
+    for (int i = 0; i < data.size(); i++)
+    {
+        s_aux = data.back();
+        data.pop_back();
+        for(int j = 0; j < num_entradas; j++){
+            f_aux = std::stof(s_aux.substr(0, s_aux.find(' ')));
+            v_aux.push_back(f_aux);
+        }
+        entradas_entrenamiento.push_back(v_aux);
+        v_aux.clear();
+        for(int j = 0; j < num_salidas; j++){
+            f_aux = std::stof(s_aux.substr(0, s_aux.find(' ')));
+            v_aux.push_back(f_aux);
+        }
+        salidas_entrenamiento.push_back(v_aux);
+        v_aux.clear();
+    }
+    data.clear();
+    leer(fichero_test);
+    for (int i = 0; i < data.size(); i++)
+    {
+        s_aux = data.back();
+        data.pop_back();
+        for(int j = 0; j < num_entradas; j++){
+            f_aux = std::stof(s_aux.substr(0, s_aux.find(' ')));
+            v_aux.push_back(f_aux);
+        }
+        entradas_test.push_back(v_aux);
+        v_aux.clear();
+        for(int j = 0; j < num_salidas; j++){
+            f_aux = std::stof(s_aux.substr(0, s_aux.find(' ')));
+            v_aux.push_back(f_aux);
+        }
+        salidas_test.push_back(v_aux);
+        v_aux.clear();
+    }
+}
