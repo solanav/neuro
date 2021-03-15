@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 #include <limits>
 
 #include "lector.h"
@@ -44,14 +45,18 @@ void Lector::leer1(char *fichero, float por)
     float f_aux;
     std::vector<float> v_aux = std::vector<float>();
 
+    std::random_shuffle ( data.begin(), data.end() );
+
     for (int i = 0; i < num_entreno; i++)
     {
         s_aux = data.back();
+        std::cout << s_aux << std::endl;
         data.pop_back();
         for(int j = 0; j < num_entradas; j++){
             f_aux = std::stof(s_aux.substr(0, s_aux.find(' ')));
             v_aux.push_back(f_aux);
         }
+
         entradas_entrenamiento.push_back(v_aux);
         v_aux.clear();
         for(int j = 0; j < num_salidas; j++){

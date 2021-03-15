@@ -84,5 +84,12 @@ int main(int argc, char *argv[])
 
     l.leer1("and.txt", 0.5);
 
+    for(int i = 0; i < l.entradas_entrenamiento.size(); i++){
+        for(int j = 0; j < l.entradas_entrenamiento[i].size(); j++){
+            std::cout << l.entradas_entrenamiento[i][j];
+        }
+        std::cout << std::endl;
+    }
+
     return 0;
 }
