@@ -2,6 +2,8 @@
 #include <fstream>
 #include <algorithm>
 #include <limits>
+#include <sstream>
+#include <iterator>
 
 #include "lector.h"
 
@@ -15,6 +17,17 @@ Lector::Lector()
 }
 
 Lector::~Lector() {}
+
+std::vector<std::string> split(std::string s)
+{
+    // Magic: DO NOT TOUCH
+    std::istringstream buf(s);
+    std::istream_iterator<std::string> beg(buf), end;
+
+    std::vector<std::string> tokens(beg, end);
+
+    return tokens;
+}
 
 void Lector::leer(char *fichero)
 {
@@ -33,11 +46,11 @@ void Lector::leer(char *fichero)
     }
 
     infile.close();
-    
 }
 
 void Lector::leer1(char *fichero, float por)
 {
+
     leer(fichero);
 
     int num_entreno=data.size() * por;
@@ -51,16 +64,20 @@ void Lector::leer1(char *fichero, float por)
     {
         s_aux = data.back();
         std::cout << s_aux << std::endl;
+        std::vector<std::string> stuff = split(s_aux);
+
+        // Sacamos las entradas
         data.pop_back();
         for(int j = 0; j < num_entradas; j++){
-            f_aux = std::stof(s_aux.substr(0, s_aux.find(' ')));
+            f_aux = std::stof(stuff[j]);
             v_aux.push_back(f_aux);
         }
 
+        // Sacamos las salidas
         entradas_entrenamiento.push_back(v_aux);
         v_aux.clear();
         for(int j = 0; j < num_salidas; j++){
-            f_aux = std::stof(s_aux.substr(0, s_aux.find(' ')));
+            f_aux = std::stof(stuff[j + num_entradas]);
             v_aux.push_back(f_aux);
         }
         salidas_entrenamiento.push_back(v_aux);
@@ -98,7 +115,7 @@ void Lector::leer2(char * fichero){
         s_aux = data.back();
         data.pop_back();
         for(int j = 0; j < num_entradas; j++){
-            f_aux = std::stof(s_aux.substr(0, s_aux.find(' ')));
+            f_aux = std::stof(stuff[j]);
             v_aux.push_back(f_aux);
         }
         entradas_entrenamiento.push_back(v_aux);
@@ -126,7 +143,7 @@ void Lector::leer3(char *fichero_entreno, char *fichero_test){
         s_aux = data.back();
         data.pop_back();
         for(int j = 0; j < num_entradas; j++){
-            f_aux = std::stof(s_aux.substr(0, s_aux.find(' ')));
+            f_aux = std::stof(stuff[j]);
             v_aux.push_back(f_aux);
         }
         entradas_entrenamiento.push_back(v_aux);
