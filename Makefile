@@ -5,7 +5,7 @@ LDFLAGS=-g
 SRC=./src/
 INCLUDE=./include/
 
-all: clean mp clean
+all: clean mp perceptron clean
 
 ayuda_mp:
 	echo "no, aprendes tu solito"
@@ -18,8 +18,14 @@ ejecuta_mp:
 clean:
 	rm -f *.o mp
 
-mp: mp.o neurona.o conexion.o capa.o red_neuronal.o lector.o
-	$(CC) $(LDFLAGS) -o mp mp.o neurona.o conexion.o capa.o red_neuronal.o lector.o $(LDLIBS)
+perceptron: perceptron.o neurona.o conexion.o capa.o red_neuronal.o lector.o
+	$(CC) $(LDFLAGS) -o perceptron perceptron.o neurona.o conexion.o capa.o red_neuronal.o lector.o $(LDLIBS)
+
+mp: mp.o neurona.o conexion.o capa.o red_neuronal.o
+	$(CC) $(LDFLAGS) -o mp mp.o neurona.o conexion.o capa.o red_neuronal.o $(LDLIBS)
+
+perceptron.o: $(SRC)perceptron.cpp $(INCLUDE)neurona.h $(INCLUDE)conexion.h $(INCLUDE)red_neuronal.h $(INCLUDE)capa.h
+	$(CC) $(CPPFLAGS) -c $(SRC)perceptron.cpp
 
 mp.o: $(SRC)mp.cpp $(INCLUDE)neurona.h $(INCLUDE)conexion.h $(INCLUDE)red_neuronal.h $(INCLUDE)capa.h
 	$(CC) $(CPPFLAGS) -c $(SRC)mp.cpp

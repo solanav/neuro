@@ -19,10 +19,10 @@ public:
     std::vector<std::vector<float>> entradas_test;
     std::vector<std::vector<float>> salidas_entrenamiento;
     std::vector<std::vector<float>> salidas_test;
-private:
-    std::vector<std::string> data;
     int num_entradas;
     int num_salidas;
+private:
+    std::vector<std::string> data;
 };
 
 #endif

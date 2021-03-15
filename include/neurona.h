@@ -26,6 +26,7 @@ public:
 public:
     float umbral;
     float valor;
+    float sesgo;
     float salida_activa;
     float salida_inactiva;
     Tipo tipo;

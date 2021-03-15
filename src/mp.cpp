@@ -5,7 +5,6 @@
 #include "conexion.h"
 #include "capa.h"
 #include "red_neuronal.h"
-#include "lector.h"
 
 int main(int argc, char *argv[])
 {
@@ -78,17 +77,6 @@ int main(int argc, char *argv[])
         output << "-\t-\t-\t";
         output << a12.f_x << "\t" << a23.f_x << "\t" << a13.f_x << "\t";
         output << y.f_x << std::endl;
-    }
-
-    Lector l;
-
-    l.leer1("and.txt", 0.5);
-
-    for(int i = 0; i < l.entradas_entrenamiento.size(); i++){
-        for(int j = 0; j < l.entradas_entrenamiento[i].size(); j++){
-            std::cout << l.entradas_entrenamiento[i][j];
-        }
-        std::cout << std::endl;
     }
 
     return 0;

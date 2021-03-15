@@ -13,11 +13,20 @@ Neurona::Neurona(float umbral, Tipo tipo)
         salida_activa = 1;
         salida_inactiva = 0;
     }
-    else if (tipo == Sesgo) { // TODO
+    else if (tipo == Sesgo) {
+        salida_activa = 1;
+        salida_inactiva = -1;
+        sesgo = 1.0;
+    }
+    else if (tipo == McCulloch) {
         salida_activa = 1;
         salida_inactiva = 0;
     }
-    else if (tipo == McCulloch) {
+    else if (tipo == SigmoideBipolar) {
+        salida_activa = 1;
+        salida_inactiva = -1;
+    }
+    else if (tipo == SigmoidePersonalizada) {
         salida_activa = 1;
         salida_inactiva = 0;
     }
@@ -57,7 +66,7 @@ void Neurona::disparar()
     if (tipo == Directa)
         f_x = valor;
     else if (tipo == Sesgo)
-        f_x = 1.0;
+        f_x = sesgo;
     else if (tipo == McCulloch)
         f_x = valor >= umbral ? salida_activa : salida_inactiva;
     else
