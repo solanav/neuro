@@ -29,6 +29,17 @@ std::vector<std::string> split(std::string s)
     return tokens;
 }
 
+// This takes a vector and puts the
+std::vector<float> dataToFloat(std::vector<std::string> s, int start, int finish)
+{
+    std::vector<float> res = std::vector<float>();
+    for(int i = start; i < finish; i++){
+        res.push_back(std::stof(s[i]));
+    }
+
+    return res;
+}
+
 void Lector::leer(char *fichero)
 {
     std::string line;
@@ -55,50 +66,34 @@ void Lector::leer1(char *fichero, float por)
 
     int num_entreno=data.size() * por;
     std::string s_aux;
-    float f_aux;
     std::vector<float> v_aux = std::vector<float>();
+    std::vector<std::string> stuff;
 
     std::random_shuffle ( data.begin(), data.end() );
 
     for (int i = 0; i < num_entreno; i++)
     {
         s_aux = data.back();
-        std::cout << s_aux << std::endl;
-        std::vector<std::string> stuff = split(s_aux);
+        stuff = split(s_aux);
+        data.pop_back();
 
         // Sacamos las entradas
-        data.pop_back();
-        for(int j = 0; j < num_entradas; j++){
-            f_aux = std::stof(stuff[j]);
-            v_aux.push_back(f_aux);
-        }
+        entradas_entrenamiento.push_back(dataToFloat(stuff, 0, num_entradas));
 
         // Sacamos las salidas
-        entradas_entrenamiento.push_back(v_aux);
-        v_aux.clear();
-        for(int j = 0; j < num_salidas; j++){
-            f_aux = std::stof(stuff[j + num_entradas]);
-            v_aux.push_back(f_aux);
-        }
-        salidas_entrenamiento.push_back(v_aux);
-        v_aux.clear();
+        salidas_entrenamiento.push_back(dataToFloat(stuff, num_entradas, num_salidas+num_entradas));
     }
     for (int i = 0; i < data.size(); i++)
     {
         s_aux = data.back();
+        stuff = split(s_aux);
         data.pop_back();
-        for(int j = 0; j < num_entradas; j++){
-            f_aux = std::stof(s_aux.substr(0, s_aux.find(' ')));
-            v_aux.push_back(f_aux);
-        }
-        entradas_test.push_back(v_aux);
-        v_aux.clear();
-        for(int j = 0; j < num_salidas; j++){
-            f_aux = std::stof(s_aux.substr(0, s_aux.find(' ')));
-            v_aux.push_back(f_aux);
-        }
-        salidas_test.push_back(v_aux);
-        v_aux.clear();
+        
+        // Sacamos las entradas
+        entradas_test.push_back(dataToFloat(stuff, 0, num_entradas));
+
+        // Sacamos las salidas
+        salidas_test.push_back(dataToFloat(stuff, num_entradas, num_salidas+num_entradas));
     }
     
 }
@@ -107,27 +102,20 @@ void Lector::leer2(char * fichero){
     leer(fichero);
 
     std::string s_aux;
-    float f_aux;
-    std::vector<float> v_aux = std::vector<float>();
+    std::vector<std::string> stuff;
 
     for (int i = 0; i < data.size(); i++)
     {
         s_aux = data.back();
+        stuff = split(s_aux);
         data.pop_back();
-        for(int j = 0; j < num_entradas; j++){
-            f_aux = std::stof(stuff[j]);
-            v_aux.push_back(f_aux);
-        }
-        entradas_entrenamiento.push_back(v_aux);
-        entradas_test.push_back(v_aux);
-        v_aux.clear();
-        for(int j = 0; j < num_salidas; j++){
-            f_aux = std::stof(s_aux.substr(0, s_aux.find(' ')));
-            v_aux.push_back(f_aux);
-        }
-        salidas_entrenamiento.push_back(v_aux);
-        salidas_test.push_back(v_aux);
-        v_aux.clear();
+
+        entradas_entrenamiento.push_back(dataToFloat(stuff, 0, num_entradas));
+        entradas_test.push_back(dataToFloat(stuff, 0, num_entradas));
+
+        
+        salidas_entrenamiento.push_back(dataToFloat(stuff, num_entradas, num_salidas+num_entradas));
+        salidas_test.push_back(dataToFloat(stuff, num_entradas, num_salidas+num_entradas));
     }
 }
 
@@ -135,43 +123,32 @@ void Lector::leer3(char *fichero_entreno, char *fichero_test){
     leer(fichero_entreno);
 
     std::string s_aux;
-    float f_aux;
-    std::vector<float> v_aux = std::vector<float>();
+    std::vector<std::string> stuff;
 
     for (int i = 0; i < data.size(); i++)
     {
         s_aux = data.back();
+        stuff = split(s_aux);
         data.pop_back();
-        for(int j = 0; j < num_entradas; j++){
-            f_aux = std::stof(stuff[j]);
-            v_aux.push_back(f_aux);
-        }
-        entradas_entrenamiento.push_back(v_aux);
-        v_aux.clear();
-        for(int j = 0; j < num_salidas; j++){
-            f_aux = std::stof(s_aux.substr(0, s_aux.find(' ')));
-            v_aux.push_back(f_aux);
-        }
-        salidas_entrenamiento.push_back(v_aux);
-        v_aux.clear();
+
+        // Sacamos las entradas
+        entradas_entrenamiento.push_back(dataToFloat(stuff, 0, num_entradas));
+
+        // Sacamos las salidas
+        salidas_entrenamiento.push_back(dataToFloat(stuff, num_entradas, num_salidas+num_entradas));
     }
     data.clear();
     leer(fichero_test);
     for (int i = 0; i < data.size(); i++)
     {
         s_aux = data.back();
+        stuff = split(s_aux);
         data.pop_back();
-        for(int j = 0; j < num_entradas; j++){
-            f_aux = std::stof(s_aux.substr(0, s_aux.find(' ')));
-            v_aux.push_back(f_aux);
-        }
-        entradas_test.push_back(v_aux);
-        v_aux.clear();
-        for(int j = 0; j < num_salidas; j++){
-            f_aux = std::stof(s_aux.substr(0, s_aux.find(' ')));
-            v_aux.push_back(f_aux);
-        }
-        salidas_test.push_back(v_aux);
-        v_aux.clear();
+        
+        // Sacamos las entradas
+        entradas_test.push_back(dataToFloat(stuff, 0, num_entradas));
+
+        // Sacamos las salidas
+        salidas_test.push_back(dataToFloat(stuff, num_entradas, num_salidas+num_entradas));
     }
 }
