@@ -73,6 +73,8 @@ int main(int argc, char *argv[])
             for (int j = 0; j < num_entradas; j++)
                 entrada_raw[j].inicializar(entrada[j]);
 
+            std::cout << entrada_raw[1].tipo << std::endl;
+
             red.Disparar();
             red.Inicializar();
             red.Propagar();
@@ -95,7 +97,7 @@ int main(int argc, char *argv[])
                         entrada_raw[k].conexiones[j].peso = new_peso;
 
                         // Actualizamos el sesgo
-                        entrada_raw[k].Sesgo
+                        entrada_raw[k].sesgo = entrada_raw[k].sesgo + (tasa_aprendizaje * t);
                     }
                 }
 

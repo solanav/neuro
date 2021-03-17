@@ -63,6 +63,7 @@ void Neurona::conectar(Neurona *neurona, float peso)
 
 void Neurona::disparar()
 {
+    std::cout << tipo << "?=" << Sesgo << " " << umbral << std::endl;
     if (tipo == Directa)
         f_x = valor;
     else if (tipo == Sesgo)
