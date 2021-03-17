@@ -5,6 +5,20 @@ LDFLAGS=-g
 SRC=./src/
 INCLUDE=./include/
 
+compilar: all
+
+ayuda_per:
+	@echo "./perceptron <fichero_datos> <modo:[1|2|3]> <umbral> <tasa_aprendizaje> <porcentaje|fichero_test>"
+
+ejecuta_per:
+	./perceptron inputs/problema_real1.txt 1 0.2 1 0.1
+
+ayuda_ada:
+	@echo "./adaline <fichero_datos> <modo:[1|2|3]> <umbral> <tasa_aprendizaje> <porcentaje|fichero_test>"
+
+ejecuta_ada:
+	./adaline inputs/problema_real1.txt 1 0.2 1 0.1
+
 all: clean mp perceptron adaline clean
 
 ayuda_mp:

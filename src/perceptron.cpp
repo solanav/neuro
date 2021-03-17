@@ -2,6 +2,7 @@
 #include <fstream>
 #include <stdlib.h>
 #include <fstream>
+#include <cmath>
 
 #include "neurona.h"
 #include "conexion.h"
@@ -100,7 +101,7 @@ int main(int argc, char *argv[])
             red.capas[1]->Disparar();
 
             // red.print();
-            std::cout << "\n" << std::endl;
+            // std::cout << "\n" << std::endl;
 
             // Iteramos por todas las neuronas de salida
             for (int j = 0; j < num_salidas; j++)
@@ -151,6 +152,7 @@ int main(int argc, char *argv[])
 
     int hits = 0;
     int misses = 0;
+    float ecm = 0;
 
     for (int i = 0; i < num_rows_test; i++)
     {
@@ -170,6 +172,9 @@ int main(int argc, char *argv[])
         for (int j = 0; j < num_salidas; j++)
         {
             float y = salida_raw[j].f_x;
+
+            ecm += pow(y - salidat[j], 2);
+
             //std::cout << y << "\t?=\t" << salidat[j] << std::endl;
             if(y == salidat[j])
                 hits++;
@@ -180,7 +185,9 @@ int main(int argc, char *argv[])
 
     float hit_per = float(hits) / float(hits + misses);
 
-    std::cout << "HITS: " << hits << std::endl << "MISSES: " << misses << std::endl << "HIT%: " << hit_per * 100 << "%" << std::endl;  
+    std::cout << "HITS: " << hits << std::endl << "MISSES: " << misses << std::endl;
+    std::cout << "HIT%: " << hit_per * 100 << "%" << std::endl;
+    std::cout << "ECM:  " << ecm / float(hits + misses) << std::endl;
 
     free(entrada_raw);
     free(salida_raw);

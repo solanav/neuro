@@ -1,8 +1,0 @@
-graph graphname { rankdir="LR";
-n00x55d04bd4e6e0 [label= "", shape=none,height=.0,width=.0];n00x55d04bd4e6e0 -- "0x55d04bd4e6e0" [label=0];
-"0x55d04bd4e6e0" -- y [label=0];
-n00x55d04bd4e718 [label= "", shape=none,height=.0,width=.0];n00x55d04bd4e718 -- "0x55d04bd4e718" [label=0];
-"0x55d04bd4e718" -- y [label=0];
-n00x55d04bd4e750 [label= "", shape=none,height=.0,width=.0];n00x55d04bd4e750 -- "0x55d04bd4e750" [label=0];
-"0x55d04bd4e750" -- y [label=0];
-}
