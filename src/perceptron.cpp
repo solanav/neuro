@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
+#include <fstream>
 
 #include "neurona.h"
 #include "conexion.h"
@@ -11,8 +12,30 @@
 int main(int argc, char *argv[])
 {
 
+    if(argc < 6){
+        std::cout << "Uso: ./(exe) (fichero datos) (modo) (umbral) (tasa de aprendizaje) (porcentaje o fichero de test, segun modo)" << std::endl;
+        return -1;
+    }
+
+    int modo = std::stoi(argv[2]);
+
+    std::ifstream f(argv[1]);
+    if(!f.good()){
+        std::cout << "Archivo no existe" << std::endl;
+        return -1;
+    }
+
     Lector l;
-    l.leer2((char *) "and.txt");
+    if(modo == 1)
+        l.leer1(argv[1], std::stof(argv[5]));
+    else if(modo == 2)
+        l.leer2(argv[1]);
+    else if(modo == 3)
+        l.leer3(argv[1], argv[5]);
+    else
+    {
+        std::cout << "Modo inválido" << std::endl;
+    }
 
     // Lo sacamos del lector
     int num_rows_entrenamiento = l.entradas_entrenamiento.size();
@@ -21,10 +44,10 @@ int main(int argc, char *argv[])
     int num_salidas = l.num_salidas;
 
     // Establecemos la tasa de aprendizaje
-    float tasa_aprendizaje = 1;
+    float tasa_aprendizaje = std::stof(argv[4]);
 
     // Setup de la red
-    float umbral = 0.2;
+    float umbral = std::stof(argv[3]);
     Neurona *entrada_raw = (Neurona *) calloc(num_entradas, sizeof(Neurona));
     Neurona *salida_raw = (Neurona *) calloc(num_salidas, sizeof(Neurona));
 
@@ -126,13 +149,16 @@ int main(int argc, char *argv[])
         }
     }
 
-    for (int i; i < num_rows_test; i++)
+    int hits = 0;
+    int misses = 0;
+
+    for (int i = 0; i < num_rows_test; i++)
     {
-        std::vector<float> entrada = l.entradas_test[i];
-        std::vector<float> salida = l.salidas_test[i];
+        std::vector<float> entradat = l.entradas_test[i];
+        std::vector<float> salidat = l.salidas_test[i];
 
         for (int j = 0; j < num_entradas; j++)
-            entrada_raw[j].inicializar(entrada[j - 1]);
+            entrada_raw[j].inicializar(entradat[j - 1]);
 
         red.Disparar();
         red.Inicializar();
@@ -144,9 +170,17 @@ int main(int argc, char *argv[])
         for (int j = 0; j < num_salidas; j++)
         {
             float y = salida_raw[j].f_x;
-            std::cout << entrada[0] << " and " << entrada[1] << " = " << y << " ?= " << salida[j] << std::endl;
+            //std::cout << y << "\t?=\t" << salidat[j] << std::endl;
+            if(y == salidat[j])
+                hits++;
+            else
+                misses++;
         }
     }
+
+    float hit_per = float(hits) / float(hits + misses);
+
+    std::cout << "HITS: " << hits << std::endl << "MISSES: " << misses << std::endl << "HIT%: " << hit_per * 100 << "%" << std::endl;  
 
     free(entrada_raw);
     free(salida_raw);

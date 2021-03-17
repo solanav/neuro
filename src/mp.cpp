@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
     a23.conectar(&y, 1);
     a13.conectar(&y, 1);
 
-    std::ifstream infile("entradas.txt");
+    std::ifstream infile("inputs/entradas.txt");
     std::ofstream output;
     output.open("results_mp.txt");
     float a, b, c;
