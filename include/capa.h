@@ -17,6 +17,7 @@ public:
     void Conectar(Neurona *neurona, int modo_peso);
     void Disparar();
     void Propagar();
+    void print();
 
 public:
     std::vector<Neurona *> neuronas;

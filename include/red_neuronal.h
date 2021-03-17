@@ -12,6 +12,7 @@ public:
     void Anadir(Capa *capa);
     void Disparar();
     void Propagar();
+    void print();
 
 public:
     std::vector<Capa *> capas;

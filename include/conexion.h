@@ -10,6 +10,7 @@ public:
     Conexion(float peso, Neurona *neurona);
     virtual ~Conexion();
     void Propagar(float valor);
+    void print();
 public:
     float peso;
     float peso_anterior;

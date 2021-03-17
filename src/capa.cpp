@@ -27,7 +27,6 @@ void Capa::Conectar(Capa *capa, int modo_peso)
 
 void Capa::Conectar(Neurona *neurona, int modo_peso)
 {
-    
     if (modo_peso == PESO_CERO)
         for (auto& self_neurona : this->neuronas)
             self_neurona->conectar(neurona, 0);
@@ -48,4 +47,12 @@ void Capa::Propagar()
 {
     for (auto& neurona : neuronas)
         neurona->propagar();
+}
+
+
+void Capa::print()
+{
+    std::cout << "CAPA (" << this << ")" << std::endl;
+    for (int i = 0; i < neuronas.size(); i++)
+        neuronas[i]->print();
 }

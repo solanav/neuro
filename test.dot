@@ -1,0 +1,4 @@
+graph graphname {
+    a -- y [label=f];
+    b -- y;
+}

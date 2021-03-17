@@ -1,3 +1,6 @@
+#include <iostream>
+#include <fstream>
+
 #include "red_neuronal.h"
 
 RedNeuronal::RedNeuronal()
@@ -30,3 +33,10 @@ void RedNeuronal::Propagar()
         capa->Propagar();
 }
 
+void RedNeuronal::print()
+{
+    std::cout << "==========================================================" << std::endl;
+    for (int i = 0; i < capas.size(); i++)
+        capas[i]->print();
+
+}

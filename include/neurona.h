@@ -13,7 +13,8 @@ public:
         McCulloch,
         Sesgo,
         SigmoideBipolar,
-        SigmoidePersonalizada
+        SigmoidePersonalizada,
+        Perceptron
     };
     Neurona(float umbral, Tipo tipo);
     Neurona(float umbral, float salida_activa, float salida_inactiva, Tipo tipo);
@@ -22,11 +23,11 @@ public:
     void conectar(Neurona *neurona, float peso);
     void disparar();
     void propagar();
+    void print();
 
 public:
     float umbral;
     float valor;
-    float sesgo;
     float salida_activa;
     float salida_inactiva;
     Tipo tipo;

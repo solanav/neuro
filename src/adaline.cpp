@@ -1,5 +1,7 @@
 #include <iostream>
 #include <fstream>
+#include <stdlib.h>
+#include <unistd.h>
 
 #include "neurona.h"
 #include "conexion.h"
@@ -7,7 +9,19 @@
 #include "red_neuronal.h"
 #include "lector.h"
 
+int f(float y, int umbral)
+{
+    int f_x;
 
+    if (y > umbral)
+        f_x = 1;
+    else if (y < -umbral)
+        f_x = -1;
+    if (y <= umbral && y >= -umbral)
+        f_x = 0;
+
+    return f_x;
+}
 
 int main(int argc, char *argv[])
 {
@@ -23,26 +37,27 @@ int main(int argc, char *argv[])
     float tasa_aprendizaje = 0.02;
 
     // Setup de la red
-    int umbral = 1;
-    std::vector<Neurona> entrada_raw = std::vector<Neurona>();
-    std::vector<Neurona> salida_raw = std::vector<Neurona>();
+    float umbral = 2;
+    Neurona *entrada_raw = (Neurona *) calloc(num_entradas, sizeof(Neurona));
+    Neurona *salida_raw = (Neurona *) calloc(num_salidas, sizeof(Neurona));
 
+    // Creamos la capa de entrada
     Capa capa_entrada = Capa();
     for (int i = 0; i < num_entradas; i++)
     {
-        Neurona tmp = Neurona(umbral, Neurona::Tipo::Sesgo);
-        entrada_raw.push_back(tmp);
-        capa_entrada.Anadir(&tmp);
+        entrada_raw[i] = Neurona(umbral, Neurona::Tipo::Sesgo);
+        capa_entrada.Anadir(&(entrada_raw[i]));
     }
 
+    // Creamos la capa de salida
     Capa capa_salida = Capa();
     for (int i = 0; i < num_salidas; i++)
     {
-        Neurona tmp = Neurona(umbral, Neurona::Tipo::Sesgo);
-        salida_raw.push_back(tmp);
-        capa_salida.Anadir(&tmp);
+        salida_raw[i] = Neurona(umbral, Neurona::Tipo::Sesgo);
+        capa_salida.Anadir(&(salida_raw[i]));
     }
 
+    // Conectamos las dos capas
     capa_entrada.Conectar(&capa_salida, PESO_PEQUENO);
 
     RedNeuronal red = RedNeuronal();
@@ -53,6 +68,7 @@ int main(int argc, char *argv[])
     bool cont = true;
     while (cont)
     {
+        // Por cada row de entrenamiento
         for (int i = 0; i < num_rows_entrenamiento; i++)
         {
             std::vector<float> entrada = l.entradas_entrenamiento[i];
@@ -61,18 +77,22 @@ int main(int argc, char *argv[])
             for (int j = 0; j < num_entradas; j++)
                 entrada_raw[j].inicializar(entrada[j]);
 
-            std::cout << entrada_raw[1].tipo << std::endl;
+            red.print();
+            std::cout << "\n" << std::endl;
+            usleep(10000);
 
             red.Disparar();
             red.Inicializar();
             red.Propagar();
 
-            // Imprimimos la salida
+            // Iteramos por todas las neuronas de salida
+            cont = false;
             for (int j = 0; j < num_salidas; j++)
             {
-                float y = salida_raw[j].valor;
+                float y = f(salida_raw[j].valor, umbral);
                 float t = salida[j];
-                
+
+                // Actualizamos pesos (y seguimos entrenando)
                 for (int k = 0; k < num_entradas; k++)
                 {
                     // Actualizamos el peso
@@ -84,12 +104,19 @@ int main(int argc, char *argv[])
 
                     // Actualizamos el sesgo
                     entrada_raw[k].sesgo = entrada_raw[k].sesgo + (tasa_aprendizaje * (t-y));
+
+                    // Seguimos si los pesos han cambiado
+                    if (abs(new_peso - old_peso) > tolerancia_peso)
+                        cont = true;
                 }
+
+                std::cout << y << " ?= " << t << std::endl;
             }
         }
-
-        cont = false;
     }
+
+    free(entrada_raw);
+    free(salida_raw);
 
     return 0;
 }

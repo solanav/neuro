@@ -64,7 +64,8 @@ void Lector::leer1(char *fichero, float por)
 
     leer(fichero);
 
-    int num_entreno=data.size() * por;
+    int num_entreno = data.size() * por;
+
     std::string s_aux;
     std::vector<float> v_aux = std::vector<float>();
     std::vector<std::string> stuff;
@@ -83,19 +84,20 @@ void Lector::leer1(char *fichero, float por)
         // Sacamos las salidas
         salidas_entrenamiento.push_back(dataToFloat(stuff, num_entradas, num_salidas+num_entradas));
     }
-    for (int i = 0; i < data.size(); i++)
+
+    int entrena_size = data.size();
+    for (int i = 0; i < entrena_size; i++)
     {
         s_aux = data.back();
         stuff = split(s_aux);
         data.pop_back();
-        
+
         // Sacamos las entradas
         entradas_test.push_back(dataToFloat(stuff, 0, num_entradas));
 
         // Sacamos las salidas
         salidas_test.push_back(dataToFloat(stuff, num_entradas, num_salidas+num_entradas));
     }
-    
 }
 
 void Lector::leer2(char * fichero){
@@ -104,7 +106,8 @@ void Lector::leer2(char * fichero){
     std::string s_aux;
     std::vector<std::string> stuff;
 
-    for (int i = 0; i < data.size(); i++)
+    int entrena_size = data.size();
+    for (int i = 0; i < entrena_size; i++)
     {
         s_aux = data.back();
         stuff = split(s_aux);
@@ -113,7 +116,6 @@ void Lector::leer2(char * fichero){
         entradas_entrenamiento.push_back(dataToFloat(stuff, 0, num_entradas));
         entradas_test.push_back(dataToFloat(stuff, 0, num_entradas));
 
-        
         salidas_entrenamiento.push_back(dataToFloat(stuff, num_entradas, num_salidas+num_entradas));
         salidas_test.push_back(dataToFloat(stuff, num_entradas, num_salidas+num_entradas));
     }
@@ -125,7 +127,8 @@ void Lector::leer3(char *fichero_entreno, char *fichero_test){
     std::string s_aux;
     std::vector<std::string> stuff;
 
-    for (int i = 0; i < data.size(); i++)
+    int entrena_size = data.size();
+    for (int i = 0; i < entrena_size; i++)
     {
         s_aux = data.back();
         stuff = split(s_aux);
@@ -139,12 +142,14 @@ void Lector::leer3(char *fichero_entreno, char *fichero_test){
     }
     data.clear();
     leer(fichero_test);
-    for (int i = 0; i < data.size(); i++)
+
+    int entrena_size2 = data.size();
+    for (int i = 0; i < entrena_size2; i++)
     {
         s_aux = data.back();
         stuff = split(s_aux);
         data.pop_back();
-        
+
         // Sacamos las entradas
         entradas_test.push_back(dataToFloat(stuff, 0, num_entradas));
 
