@@ -12,10 +12,12 @@
 int main(int argc, char *argv[])
 {
 
-    if(argc < 2){
+    if(argc < 5){
         std::cout << "Uso: ./(exe) (fichero datos) (modo) (umbral) (tasa de aprendizaje) (porcentaje o fichero de test, segun modo)" << std::endl;
         return -1;
     }
+
+    int modo = std::stoi(argv[2]);
 
     std::ifstream f(argv[1]);
     if(!f.good()){
@@ -24,7 +26,21 @@ int main(int argc, char *argv[])
     }
 
     Lector l;
-    l.leer2(argv[1]);
+    if(modo == 1 && argc > 5){
+        if(std::stof(argv[5]) > 1){
+            std::cout << "Porcentaje de entrenamiento erroneo" << std::endl;
+            return -1;
+        }
+        l.leer1(argv[1], std::stof(argv[5]));
+    }
+    else if(modo == 2)
+        l.leer2(argv[1]);
+    else if(modo == 3 && argc > 5)
+        l.leer3(argv[1], argv[5]);
+    else
+    {
+        std::cout << "Modo inválido" << std::endl;
+    }
 
     // Lo sacamos del lector
     int num_rows_entrenamiento = l.entradas_entrenamiento.size();
@@ -33,10 +49,10 @@ int main(int argc, char *argv[])
     int num_salidas = l.num_salidas;
 
     // Establecemos la tasa de aprendizaje
-    float tasa_aprendizaje = 1;
+    float tasa_aprendizaje = std::stof(argv[4]);
 
     // Setup de la red
-    float umbral = 0.2;
+    float umbral = std::stof(argv[3]);
     float tol = 0.01;
     Neurona *entrada_raw = (Neurona *) calloc(num_entradas, sizeof(Neurona));
     Neurona *salida_raw = (Neurona *) calloc(num_salidas, sizeof(Neurona));
