@@ -9,13 +9,13 @@
 
 int main(int argc, char *argv[])
 {
-    std::vector<std::tuple<size_t, Neurona::Tipo>> neurona_descriptor {
-        {3, Neurona::Tipo::McCulloch},
-        {3, Neurona::Tipo::McCulloch},
-        {1, Neurona::Tipo::McCulloch},
+    std::vector<std::tuple<float, size_t, Neurona::Tipo>> neurona_descriptor {
+        {1, 3, Neurona::Tipo::McCulloch},
+        {2, 3, Neurona::Tipo::McCulloch},
+        {1, 1, Neurona::Tipo::McCulloch},
     };
 
-    RedNeuronal red_test = RedNeuronal(1, neurona_descriptor);
+    RedNeuronal red_test = RedNeuronal(neurona_descriptor);
 
     float peso = 1;
 
@@ -29,10 +29,6 @@ int main(int argc, char *argv[])
     red_test.conectar(1, 0, 2, 0, peso);
     red_test.conectar(1, 1, 2, 0, peso);
     red_test.conectar(1, 2, 2, 0, peso);
-
-    red_test.print_dot("test.dot");
-
-    return 0;
 
     std::ifstream infile("inputs/entradas.txt");
     std::ofstream output;
@@ -55,6 +51,7 @@ int main(int argc, char *argv[])
             << red_test.capas[2].neuronas[0]->f_x << std::endl;
 
         red_test.print();
+        red_test.print_dot("test.dot");
         getchar();
     }
 

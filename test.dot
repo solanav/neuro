@@ -2,38 +2,38 @@ digraph graphname {
 	rankdir="LR";
 	subgraph cluster_0 {
 		node [style=filled];
-		"n00";
-		"n01";
-		"n02";
+		"n00 [1.000000]";
+		"n01 [0.000000]";
+		"n02 [0.000000]";
 		label = "capa0";
 	}
 	subgraph cluster_1 {
 		node [style=filled];
-		"n10";
-		"n11";
-		"n12";
+		"n10 [0.000000]";
+		"n11 [0.000000]";
+		"n12 [1.000000]";
 		label = "capa1";
 	}
 	subgraph cluster_2 {
 		node [style=filled];
-		"n20";
+		"n20 [0.000000]";
 		label = "capa2";
 	}
-	"void_n00" [style=invis,fixedsize=true,width=0];
-	"void_n00" -> "n00" [label=0];
-	"n00" -> "n10" [label=1];
-	"n00" -> "n12" [label=1];
-	"void_n01" [style=invis,fixedsize=true,width=0];
-	"void_n01" -> "n01" [label=0];
-	"n01" -> "n10" [label=1];
-	"n01" -> "n11" [label=1];
-	"void_n02" [style=invis,fixedsize=true,width=0];
-	"void_n02" -> "n02" [label=0];
-	"n02" -> "n11" [label=1];
-	"n02" -> "n12" [label=1];
-	"n10" -> "n20" [label=1];
-	"n11" -> "n20" [label=1];
-	"n12" -> "n20" [label=1];
-	"void_n20" [style=invis,fixedsize=true,width=0];
-		"n20" -> "void_n20" [label=0];
+	"void_n00 [1.000000]" [style=invis,fixedsize=true,width=0];
+	"void_n00 [1.000000]" -> "n00 [1.000000]" [label=0];
+	"n00 [1.000000]" -> "n10 [0.000000]" [label=1];
+	"n00 [1.000000]" -> "n12 [1.000000]" [label=1];
+	"void_n01 [0.000000]" [style=invis,fixedsize=true,width=0];
+	"void_n01 [0.000000]" -> "n01 [0.000000]" [label=0];
+	"n01 [0.000000]" -> "n10 [0.000000]" [label=1];
+	"n01 [0.000000]" -> "n11 [0.000000]" [label=1];
+	"void_n02 [0.000000]" [style=invis,fixedsize=true,width=0];
+	"void_n02 [0.000000]" -> "n02 [0.000000]" [label=0];
+	"n02 [0.000000]" -> "n11 [0.000000]" [label=1];
+	"n02 [0.000000]" -> "n12 [1.000000]" [label=1];
+	"n10 [0.000000]" -> "n20 [0.000000]" [label=1];
+	"n11 [0.000000]" -> "n20 [0.000000]" [label=1];
+	"n12 [1.000000]" -> "n20 [0.000000]" [label=1];
+	"void_n20 [0.000000]" [style=invis,fixedsize=true,width=0];
+		"n20 [0.000000]" -> "void_n20 [0.000000]" [label=0];
 }

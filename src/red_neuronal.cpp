@@ -10,14 +10,14 @@ RedNeuronal::RedNeuronal()
     capas = std::vector<Capa>();
 }
 
-RedNeuronal::RedNeuronal(float umbral, std::vector<std::tuple<size_t, Neurona::Tipo>> neuronas)
+RedNeuronal::RedNeuronal(std::vector<std::tuple<float, size_t, Neurona::Tipo>> neuronas)
 {
     capas = std::vector<Capa>();
 
     size_t num_capas = neuronas.size();
     for (size_t i = 0; i < num_capas; i++)
     {
-        auto [num_neuronas, tipo] = neuronas[i];
+        auto [umbral, num_neuronas, tipo] = neuronas[i];
         Capa tmp_capa = Capa(num_neuronas, umbral, tipo);
 
         capas.push_back(tmp_capa);
@@ -117,7 +117,10 @@ void RedNeuronal::print_dot(std::string file_name)
         for (size_t neurona_i = 0; neurona_i < capas[capa_i].neuronas.size(); neurona_i++)
         {
             auto curr_neurona = capas[capa_i].neuronas[neurona_i];
-            std::string curr_neurona_name = "n" + std::to_string(capa_i) + std::to_string(neurona_i);
+            std::string curr_neurona_name = "n"
+                + std::to_string(capa_i)
+                + std::to_string(neurona_i)
+                + " [" + std::to_string(curr_neurona->f_x) + "]";
 
             // Si estamos en la capa de entrada
             if (capa_i == 0)
@@ -126,12 +129,13 @@ void RedNeuronal::print_dot(std::string file_name)
                 end << "\t\"void_" << curr_neurona_name << "\" -> \"" << curr_neurona_name
                     << "\" [label=" << curr_neurona->valor << "];\n";
             }
+
             // Si estamos en la capa de salida
             else if (capa_i == capas.size() - 1)
             {
                 end << "\t\"void_" << curr_neurona_name << "\" [style=invis,fixedsize=true,width=0];\n";
                 end << "\t\t\"" << curr_neurona_name << "\" -> \"void_" << curr_neurona_name
-                    << "\" [label=" << curr_neurona->valor << "];\n";
+                    << "\" [label=" << curr_neurona->f_x << "];\n";
 
             }
 
@@ -142,7 +146,10 @@ void RedNeuronal::print_dot(std::string file_name)
             {
                 auto next_neurona = curr_neurona->conexiones[con_i].neurona;
                 auto [next_capa_i, next_neurona_i] = find(next_neurona);
-                std::string next_neurona_name = "n" + std::to_string(next_capa_i) + std::to_string(next_neurona_i);
+                std::string next_neurona_name = "n"
+                    + std::to_string(next_capa_i)
+                    + std::to_string(next_neurona_i)
+                    + " [" + std::to_string(next_neurona->f_x) + "]";
 
                 end << "\t\"" << curr_neurona_name << "\" -> \"" << next_neurona_name
                     << "\" [label=" << curr_neurona->conexiones[con_i].peso << "];\n";

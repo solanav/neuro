@@ -7,7 +7,7 @@
 class RedNeuronal {
 public:
     RedNeuronal();
-    RedNeuronal(float umbral, std::vector<std::tuple<size_t, Neurona::Tipo>> neuronas);
+    RedNeuronal(std::vector<std::tuple<float, size_t, Neurona::Tipo>> neuronas);
     virtual ~RedNeuronal();
     void Inicializar();
     void Anadir(Capa capa);

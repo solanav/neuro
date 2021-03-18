@@ -22,7 +22,7 @@ Capa::~Capa() {}
 
 void Capa::Inicializar() {
     for (auto& neurona : neuronas)
-        neurona->valor = 0;
+        neurona->inicializar(0);
 }
 
 void Capa::Anadir(std::shared_ptr<Neurona> neurona)
