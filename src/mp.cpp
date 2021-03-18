@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
         {1, 1, Neurona::Tipo::McCulloch},
     };
 
-    RedNeuronal red_test = RedNeuronal(neurona_descriptor);
+    RedNeuronal red_test = RedNeuronal(neurona_descriptor, false);
 
     float peso = 1;
 

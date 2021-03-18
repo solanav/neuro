@@ -2,38 +2,46 @@ digraph graphname {
 	rankdir="LR";
 	subgraph cluster_0 {
 		node [style=filled];
-		"n00 [1.000000]";
+		"n00 [0.000000]";
 		"n01 [0.000000]";
 		"n02 [0.000000]";
+		"n03 [0.000000]";
+		"n04 [0.000000]";
+		"n05 [0.000000]";
+		"n06 [0.000000]";
+		"n07 [0.000000]";
+		"n08 [0.000000]";
+		"n09 [0.000000]";
 		label = "capa0";
 	}
 	subgraph cluster_1 {
 		node [style=filled];
 		"n10 [0.000000]";
 		"n11 [0.000000]";
-		"n12 [1.000000]";
 		label = "capa1";
 	}
-	subgraph cluster_2 {
-		node [style=filled];
-		"n20 [0.000000]";
-		label = "capa2";
-	}
-	"void_n00 [1.000000]" [style=invis,fixedsize=true,width=0];
-	"void_n00 [1.000000]" -> "n00 [1.000000]" [label=0];
-	"n00 [1.000000]" -> "n10 [0.000000]" [label=1];
-	"n00 [1.000000]" -> "n12 [1.000000]" [label=1];
+	"void_n00 [0.000000]" [style=invis,fixedsize=true,width=0];
+	"void_n00 [0.000000]" -> "n00 [0.000000]" [label=0];
 	"void_n01 [0.000000]" [style=invis,fixedsize=true,width=0];
 	"void_n01 [0.000000]" -> "n01 [0.000000]" [label=0];
-	"n01 [0.000000]" -> "n10 [0.000000]" [label=1];
-	"n01 [0.000000]" -> "n11 [0.000000]" [label=1];
 	"void_n02 [0.000000]" [style=invis,fixedsize=true,width=0];
 	"void_n02 [0.000000]" -> "n02 [0.000000]" [label=0];
-	"n02 [0.000000]" -> "n11 [0.000000]" [label=1];
-	"n02 [0.000000]" -> "n12 [1.000000]" [label=1];
-	"n10 [0.000000]" -> "n20 [0.000000]" [label=1];
-	"n11 [0.000000]" -> "n20 [0.000000]" [label=1];
-	"n12 [1.000000]" -> "n20 [0.000000]" [label=1];
-	"void_n20 [0.000000]" [style=invis,fixedsize=true,width=0];
-		"n20 [0.000000]" -> "void_n20 [0.000000]" [label=0];
+	"void_n03 [0.000000]" [style=invis,fixedsize=true,width=0];
+	"void_n03 [0.000000]" -> "n03 [0.000000]" [label=0];
+	"void_n04 [0.000000]" [style=invis,fixedsize=true,width=0];
+	"void_n04 [0.000000]" -> "n04 [0.000000]" [label=0];
+	"void_n05 [0.000000]" [style=invis,fixedsize=true,width=0];
+	"void_n05 [0.000000]" -> "n05 [0.000000]" [label=0];
+	"void_n06 [0.000000]" [style=invis,fixedsize=true,width=0];
+	"void_n06 [0.000000]" -> "n06 [0.000000]" [label=0];
+	"void_n07 [0.000000]" [style=invis,fixedsize=true,width=0];
+	"void_n07 [0.000000]" -> "n07 [0.000000]" [label=0];
+	"void_n08 [0.000000]" [style=invis,fixedsize=true,width=0];
+	"void_n08 [0.000000]" -> "n08 [0.000000]" [label=0];
+	"void_n09 [0.000000]" [style=invis,fixedsize=true,width=0];
+	"void_n09 [0.000000]" -> "n09 [0.000000]" [label=0];
+	"void_n10 [0.000000]" [style=invis,fixedsize=true,width=0];
+		"n10 [0.000000]" -> "void_n10 [0.000000]" [label=0];
+	"void_n11 [0.000000]" [style=invis,fixedsize=true,width=0];
+		"n11 [0.000000]" -> "void_n11 [0.000000]" [label=0];
 }

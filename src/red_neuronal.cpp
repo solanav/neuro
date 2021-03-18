@@ -10,15 +10,20 @@ RedNeuronal::RedNeuronal()
     capas = std::vector<Capa>();
 }
 
-RedNeuronal::RedNeuronal(std::vector<std::tuple<float, size_t, Neurona::Tipo>> neuronas)
+RedNeuronal::RedNeuronal(std::vector<std::tuple<float, size_t, Neurona::Tipo>> neuronas, bool sesgo)
 {
     capas = std::vector<Capa>();
-
+    this->sesgo = sesgo;
     size_t num_capas = neuronas.size();
     for (size_t i = 0; i < num_capas; i++)
     {
         auto [umbral, num_neuronas, tipo] = neuronas[i];
         Capa tmp_capa = Capa(num_neuronas, umbral, tipo);
+
+        // Si se nos pide meter sesgo, metemos una neurona de tipo sesgo
+        // en todas las capas excepto la ultima.
+        if (sesgo && i < num_capas - 1)
+            tmp_capa.Anadir(std::make_shared<Neurona>(umbral, Neurona::Tipo::Sesgo));
 
         capas.push_back(tmp_capa);
     }
@@ -51,9 +56,17 @@ void RedNeuronal::Propagar()
 
 void RedNeuronal::step(std::vector<float> inputs)
 {
+    int sesgo_add = sesgo ? 1 : 0;
     auto capa_entrada = capas[0];
-    if (capa_entrada.neuronas.size() != inputs.size())
-        std::cout << capa_entrada.neuronas.size() << " neuronas pero " << inputs.size() << " inputs. Please fix." << std::endl;
+    if (capa_entrada.neuronas.size() != inputs.size() + sesgo)
+    {
+        std::cout
+            << capa_entrada.neuronas.size() << " neuronas pero "
+            << inputs.size() + sesgo << " inputs. Please fix."
+            << std::endl;
+
+        exit(-1);
+    }
 
     for (int i = 0; i < inputs.size(); i++)
         capa_entrada.neuronas[i]->inicializar(inputs[i]);
@@ -61,6 +74,24 @@ void RedNeuronal::step(std::vector<float> inputs)
     Disparar();
     Inicializar();
     Propagar();
+}
+
+void RedNeuronal::next(std::vector<float> inputs)
+{
+    step(inputs);
+
+    size_t num_capas = capas.size();
+    for (size_t i = 0; i < num_capas - 1; i++)
+        step(inputs);
+}
+
+void RedNeuronal::conectar(int modo_peso)
+{
+    size_t num_capas = capas.size();
+    for (size_t i = 0; i < num_capas - 1; i++)
+    {
+        capas[i].Conectar(&(capas[i + 1]), modo_peso);
+    }
 }
 
 void RedNeuronal::conectar(int capa_x, int neurona_x, int capa_y, int neurona_y, float peso)
