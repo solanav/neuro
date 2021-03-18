@@ -1,6 +1,6 @@
 CC=g++
 
-CPPFLAGS=-g -Iinclude/
+CPPFLAGS=-g -std=c++17 -Iinclude/
 LDFLAGS=-g
 SRC=./src/
 INCLUDE=./include/

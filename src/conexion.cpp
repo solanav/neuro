@@ -3,7 +3,7 @@
 #include "conexion.h"
 #include "neurona.h"
 
-Conexion::Conexion(float peso, Neurona *neurona)
+Conexion::Conexion(float peso, std::shared_ptr<Neurona> neurona)
 {
     this->peso = peso;
     this->neurona = neurona;

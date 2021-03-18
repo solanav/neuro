@@ -4,7 +4,18 @@
 
 Capa::Capa()
 {
-    neuronas = std::vector<Neurona *>();
+    neuronas = std::vector<std::shared_ptr<Neurona>>();
+}
+
+Capa::Capa(int num_neuronas, float umbral, Neurona::Tipo tipo)
+{
+    neuronas = std::vector<std::shared_ptr<Neurona>>();
+
+    for (int i = 0; i < num_neuronas; i++)
+    {
+        auto tmp_neurona = std::make_shared<Neurona>(umbral, Neurona::Tipo::McCulloch);
+        neuronas.push_back(tmp_neurona);
+    }
 }
 
 Capa::~Capa() {}
@@ -14,7 +25,7 @@ void Capa::Inicializar() {
         neurona->valor = 0;
 }
 
-void Capa::Anadir(Neurona *neurona)
+void Capa::Anadir(std::shared_ptr<Neurona> neurona)
 {
     neuronas.push_back(neurona);
 }
@@ -25,7 +36,7 @@ void Capa::Conectar(Capa *capa, int modo_peso)
         Conectar(neurona, modo_peso);
 }
 
-void Capa::Conectar(Neurona *neurona, int modo_peso)
+void Capa::Conectar(std::shared_ptr<Neurona> neurona, int modo_peso)
 {
     if (modo_peso == PESO_CERO)
         for (auto& self_neurona : this->neuronas)

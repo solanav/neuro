@@ -20,7 +20,7 @@ public:
     Neurona(float umbral, float salida_activa, float salida_inactiva, Tipo tipo);
     virtual ~Neurona();
     void inicializar(float valor);
-    void conectar(Neurona *neurona, float peso);
+    void conectar(std::shared_ptr<Neurona> neurona, float peso);
     void disparar();
     void propagar();
     void print();

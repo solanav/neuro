@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 
 #include "neurona.h"
 #include "conexion.h"
@@ -59,7 +60,7 @@ void Neurona::inicializar(float valor)
     this->valor = valor;
 }
 
-void Neurona::conectar(Neurona *neurona, float peso)
+void Neurona::conectar(std::shared_ptr<Neurona> neurona, float peso)
 {
     conexiones.push_back(Conexion(peso, neurona));
 }
@@ -111,9 +112,6 @@ void Neurona::print()
     std::cout << "\tNEURONA " << str_tipo << " (" << this << ")" << std::endl;
     std::cout << "\t\tUmbral:  " << umbral << std::endl;
     std::cout << "\t\tValor:   " << valor << std::endl;
-    // std::cout << "\t\tSalida+: " << salida_activa << std::endl;
-    // std::cout << "\t\tSalida-: " << salida_inactiva << std::endl;
-    // std::cout << "\t\tTipo:    " << str_tipo << std::endl;
     std::cout << "\t\tF_x:     " << f_x << std::endl;
     for (int i = 0; i < conexiones.size(); i++)
         conexiones[i].print();

@@ -10,17 +10,18 @@
 class Capa {
 public:
     Capa();
+    Capa(int num_neuronas, float umbral, Neurona::Tipo tipo);
     virtual ~Capa();
     void Inicializar();
-    void Anadir(Neurona *neurona);
+    void Anadir(std::shared_ptr<Neurona> neurona);
     void Conectar(Capa *capa, int modo_peso);
-    void Conectar(Neurona *neurona, int modo_peso);
+    void Conectar(std::shared_ptr<Neurona> neurona, int modo_peso);
     void Disparar();
     void Propagar();
     void print();
 
 public:
-    std::vector<Neurona *> neuronas;
+    std::vector<std::shared_ptr<Neurona>> neuronas;
 };
 
 #endif
