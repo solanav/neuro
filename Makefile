@@ -30,7 +30,7 @@ ejecuta_mp:
 	./mp
 
 clean:
-	rm -f *.o mp
+	rm -f *.o mp adaline perceptron
 
 adaline: adaline.o neurona.o conexion.o capa.o red_neuronal.o lector.o
 	$(CC) $(LDFLAGS) -o adaline adaline.o neurona.o conexion.o capa.o red_neuronal.o lector.o $(LDLIBS)
