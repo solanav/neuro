@@ -18,6 +18,7 @@ public:
     void Conectar(std::shared_ptr<Neurona> neurona, int modo_peso);
     void Disparar();
     void Propagar();
+    size_t find(std::shared_ptr<Neurona> neurona);
     void print();
 
 public:

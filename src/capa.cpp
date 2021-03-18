@@ -60,6 +60,16 @@ void Capa::Propagar()
         neurona->propagar();
 }
 
+size_t Capa::find(std::shared_ptr<Neurona> neurona)
+{
+    for (size_t i = 0; i < neuronas.size(); i++)
+    {
+        if (neuronas[i] == neurona)
+            return i;
+    }
+
+    return -1;
+}
 
 void Capa::print()
 {

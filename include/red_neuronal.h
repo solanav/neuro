@@ -13,7 +13,10 @@ public:
     void Anadir(Capa capa);
     void Disparar();
     void Propagar();
+    void step(std::vector<float> inputs);
     void conectar(int capa_x, int neurona_x, int capa_y, int neurona_y, float peso);
+    void print_dot(std::string file_name);
+    std::tuple<size_t, size_t> find(std::shared_ptr<Neurona> neurona);
     void print();
 
 public:
