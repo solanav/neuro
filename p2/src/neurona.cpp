@@ -1,6 +1,6 @@
 #include <iostream>
 #include <memory>
-#include <math>
+#include <cmath>
 
 #include "neurona.h"
 #include "conexion.h"
@@ -84,7 +84,7 @@ void Neurona::disparar()
     else if (tipo == Sesgo)
         f_x = 1.0;
     else if (tipo == SigmoideBipolar)
-        f_x =  1 / (1 + exp(-valor))
+        f_x =  2 / (1 + exp(-valor)) - 1;
     else
         std::cout << "Eso no existe loco" << std::endl;
 

@@ -1,0 +1,42 @@
+digraph graphname {
+	rankdir="LR";
+	subgraph cluster_0 {
+		node [style=filled];
+		"n00 [0.000000]";
+		"n01 [0.000000]";
+		"n02 [0.000000]";
+		label = "capa0";
+	}
+	subgraph cluster_1 {
+		node [style=filled];
+		"n10 [0.000000]";
+		"n11 [0.000000]";
+		"n12 [0.000000]";
+		label = "capa1";
+	}
+	subgraph cluster_2 {
+		node [style=filled];
+		"n20 [0.000000]";
+		label = "capa2";
+	}
+	"void_n00 [0.000000]" [style=invis,fixedsize=true,width=0];
+	"void_n00 [0.000000]" -> "n00 [0.000000]" [label=0];
+	"n00 [0.000000]" -> "n10 [0.000000]" [label=0.100003];
+	"n00 [0.000000]" -> "n11 [0.000000]" [label=0.28346];
+	"n00 [0.000000]" -> "n12 [0.000000]" [label=0.118818];
+	"void_n01 [0.000000]" [style=invis,fixedsize=true,width=0];
+	"void_n01 [0.000000]" -> "n01 [0.000000]" [label=0];
+	"n01 [0.000000]" -> "n10 [0.000000]" [label=0.152615];
+	"n01 [0.000000]" -> "n11 [0.000000]" [label=0.313107];
+	"n01 [0.000000]" -> "n12 [0.000000]" [label=0.371546];
+	"void_n02 [0.000000]" [style=invis,fixedsize=true,width=0];
+	"void_n02 [0.000000]" -> "n02 [0.000000]" [label=0];
+	"n02 [0.000000]" -> "n10 [0.000000]" [label=0.402242];
+	"n02 [0.000000]" -> "n11 [0.000000]" [label=0.187584];
+	"n02 [0.000000]" -> "n12 [0.000000]" [label=0.371719];
+	"n10 [0.000000]" -> "n20 [0.000000]" [label=0.473877];
+	"n11 [0.000000]" -> "n20 [0.000000]" [label=0.253401];
+	"n12 [0.000000]" -> "n20 [0.000000]" [label=0.307767];
+	"void_n20 [0.000000]" [style=invis,fixedsize=true,width=0];
+		"n20 [0.000000]" -> "void_n20 [0.000000]" [label=0];
+}

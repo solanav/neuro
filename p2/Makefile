@@ -7,8 +7,16 @@ INCLUDE=./include/
 
 compilar: all
 
+all: mc_perceptron
+
 clean:
-	rm -f *.o 
+	rm -f *.o
+
+mc_perceptron: mc_perceptron.o neurona.o conexion.o capa.o red_neuronal.o lector.o
+	$(CC) $(LDFLAGS) -o mc_perceptron mc_perceptron.o neurona.o conexion.o capa.o red_neuronal.o lector.o $(LDLIBS)
+
+mc_perceptron.o: $(SRC)mc_perceptron.cpp $(INCLUDE)red_neuronal.h $(INCLUDE)lector.h
+	$(CC) $(CPPFLAGS) -c $(SRC)mc_perceptron.cpp
 
 neurona.o: $(SRC)neurona.cpp $(INCLUDE)neurona.h $(INCLUDE)conexion.h
 	$(CC) $(CPPFLAGS) -c $(SRC)neurona.cpp
