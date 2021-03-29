@@ -20,6 +20,7 @@ RedNeuronal::RedNeuronal(std::vector<std::tuple<float, size_t, Neurona::Tipo>> d
         auto [umbral, num_neuronas, tipo] = descriptor[i];
         Capa tmp_capa = Capa(num_neuronas, umbral, tipo);
 
+
         // Si se nos pide meter sesgo, metemos una neurona de tipo sesgo
         // en todas las capas excepto la ultima.
         if (sesgo && i < num_capas - 1)
@@ -58,11 +59,11 @@ void RedNeuronal::step(std::vector<float> inputs)
 {
     int sesgo_add = sesgo ? 1 : 0;
     auto capa_entrada = capas[0];
-    if (capa_entrada.neuronas.size() != inputs.size() + sesgo)
+    if (capa_entrada.neuronas.size() != inputs.size() + sesgo_add)
     {
         std::cout
             << capa_entrada.neuronas.size() << " neuronas pero "
-            << inputs.size() + sesgo << " inputs. Please fix."
+            << inputs.size() + sesgo_add << " inputs. Please fix."
             << std::endl;
 
         exit(-1);
@@ -78,7 +79,7 @@ void RedNeuronal::step(std::vector<float> inputs)
 
 void RedNeuronal::next(std::vector<float> inputs)
 {
-    //step(inputs);
+    step(inputs);
 
     size_t num_capas = capas.size();
     for (size_t i = 0; i < num_capas - 1; i++)

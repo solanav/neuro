@@ -17,7 +17,7 @@ Capa::Capa(int num_neuronas, float umbral, Neurona::Tipo tipo)
 
     for (int i = 0; i < num_neuronas; i++)
     {
-        auto tmp_neurona = std::make_shared<Neurona>(umbral, Neurona::Tipo::McCulloch);
+        auto tmp_neurona = std::make_shared<Neurona>(umbral, tipo);
         neuronas.push_back(tmp_neurona);
     }
 }
