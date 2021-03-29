@@ -78,7 +78,7 @@ void RedNeuronal::step(std::vector<float> inputs)
 
 void RedNeuronal::next(std::vector<float> inputs)
 {
-    step(inputs);
+    //step(inputs);
 
     size_t num_capas = capas.size();
     for (size_t i = 0; i < num_capas - 1; i++)
