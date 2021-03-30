@@ -16,12 +16,12 @@ float retropropagacion(float f_x) {
 
 int main(int argc, char const *argv[])
 {
-    float tasa_ap = 0.1;
+    float tasa_ap = 1;
     float umbral = 0.2;
     int num_oculta = 2 + 1;
 
     Lector l = Lector();
-    l.leer2("inputs/and.txt");
+    l.leer2((char *)"inputs/and.txt");
 
     int num_rows_train = l.entradas_entrenamiento.size();
     int num_rows_test = l.entradas_test.size();
@@ -38,6 +38,7 @@ int main(int argc, char const *argv[])
     RedNeuronal red = RedNeuronal(descriptor, true);
     red.conectar(PESO_PEQUENO);
 
+    int epoch = 0;
     //red.print();
     //red.print_dot("test.dot");
 
@@ -72,7 +73,7 @@ int main(int argc, char const *argv[])
                 }
                 
                 // Sesgo
-                delta_peso_os[0][k] = tasa_ap * delta_s[k];
+                delta_peso_os[num_oculta-1][k] = tasa_ap * delta_s[k];
             }
             
             std::cout << "\n\n\nTraining:" << entrada[0] << ", " << entrada[1] << std::endl
@@ -93,7 +94,7 @@ int main(int argc, char const *argv[])
                     delta_peso_eo[i][j] = tasa_ap * delta_o * red.capas[0].neuronas[i]->f_x;
                 }
 
-                delta_peso_eo[0][j] = tasa_ap * delta_o;
+                delta_peso_eo[num_entradas-1][j] = tasa_ap * delta_o;
             }
 
             // Paso 8
@@ -140,8 +141,11 @@ int main(int argc, char const *argv[])
                     cont=true;
             
             std::cout << salida[0] << "  --> " << red.capas[2].neuronas[0]->f_x << std::endl;
-            cont = false;
+            //getchar();
         }
+
+        std::cout  << "\n\nEpoch: "<< epoch << std::endl;
+        epoch ++;
     }
     
     return 0;
