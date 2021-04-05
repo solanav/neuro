@@ -20,6 +20,7 @@ public:
     void Propagar();
     size_t find(std::shared_ptr<Neurona> neurona);
     void print();
+    std::vector<float> error(std::vector<float> salida_esperada);
 
 public:
     std::vector<std::shared_ptr<Neurona>> neuronas;

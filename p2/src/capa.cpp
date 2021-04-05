@@ -1,7 +1,8 @@
 #include <iostream>
+#include <random>
 
 #include "capa.h"
-#include <random>
+#include "mates.h"
 
 std::default_random_engine generator;
 std::uniform_real_distribution<float> peso_peq_distribution(0.1, 0.5);
@@ -80,4 +81,19 @@ void Capa::print()
     std::cout << "CAPA (" << this << ")" << std::endl;
     for (int i = 0; i < neuronas.size(); i++)
         neuronas[i]->print();
+}
+
+
+std::vector<float> Capa::error(std::vector<float> salida_esperada)
+{
+    size_t s = salida_esperada.size();
+
+    std::vector<float> error(s);
+
+    for (int i = 0; i < s; i++)
+    {
+        error[i] = (salida_esperada[i] - this->neuronas[i]->f_x) * sigmoide_bipolar_der(this->neuronas[i]->f_x);
+    }
+
+    return error;
 }
