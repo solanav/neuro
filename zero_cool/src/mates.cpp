@@ -25,14 +25,17 @@ std::vector<float> dot_product(std::vector<float> x, std::vector<std::vector<flo
 
 std::vector<std::vector<float>> add_tensors(std::vector<std::vector<float>> x, std::vector<std::vector<float>> y)
 {
-    std::vector<std::vector<float>> res(
-        x.size(),
-        std::vector<float>(y.size())
-    );
+    // Comprobaciones
+    if (x.size() != y.size())
+    {
+        std::cout << "Tensors are not the same size, cannot add them" << std::endl;
+        exit(0);
+    }
+    
+    std::vector<std::vector<float>> res;
 
     for (int i = 0; i < x.size(); i++)
-        for (int j = 0; j < y.size(); j++)
-            res[i][j] = x[i][j], y[i][j];
+        res.push_back(add_tensors(x[i], y[i]));
 
     return res;
 }

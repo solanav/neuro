@@ -11,23 +11,56 @@
 #define BIPOLAR 0
 #define BINARIA 1
 
-#define MAX_EPOCAS 500
+#define MAX_EPOCAS 500000
+
+void test_and()
+{
+    Lector l = Lector();
+    l.leer2((char *)"inputs/and.txt");
+
+    RedNeuronal red(2, 0.01, BIPOLAR, l, "/dev/null", 5000);
+    red.train();
+    red.test();
+}
+
+void test_xor()
+{
+    Lector l = Lector();
+    l.leer2((char *)"inputs/xor.txt");
+
+    RedNeuronal red(4, 0.02, BINARIA, l, "/dev/null", 500000);
+    red.train();
+    red.test();
+}
+
+void test_or()
+{
+    Lector l = Lector();
+    l.leer2((char *)"inputs/or.txt");
+
+    RedNeuronal red(4, 0.02, BIPOLAR, l, "/dev/null", 5000);
+    red.train();
+    red.test();
+}
+
+void test_nand()
+{
+    Lector l = Lector();
+    l.leer2((char *)"inputs/nand.txt");
+
+    RedNeuronal red(4, 0.02, BIPOLAR, l, "/dev/null", 5000);
+    red.train();
+    red.test();
+}
 
 int main(int argc, char const *argv[])
 {
     Lector l = Lector();
-    l.leer2((char *)"inputs/problema_real1.txt");
+    l.leer2((char *)"inputs/nand.txt");
 
-    for (float tasa_ap = 0.01; tasa_ap < 0.5; tasa_ap += 0.02)
-    {
-        for (int num_capas = 2; num_capas < 8; num_capas++)
-        {
-            RedNeuronal red = RedNeuronal(num_capas, tasa_ap, BINARIA, l, "output.csv", MAX_EPOCAS);
-
-            red.train();
-            red.test();
-        }
-    }
+    RedNeuronal red(4, 0.02, BIPOLAR, l, "output.csv", 5000);
+    red.train();
+    red.test();
 
     return 0;
 }

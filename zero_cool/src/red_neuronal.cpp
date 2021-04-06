@@ -166,7 +166,6 @@ void RedNeuronal::train()
 {
     int num_rows_train = l.entradas_entrenamiento.size();
     int num_rows_test = l.entradas_test.size();
-    int num_entradas = l.num_entradas;
     int num_salidas = l.num_salidas;
 
     int epocas = 0;
@@ -201,9 +200,7 @@ void RedNeuronal::train()
 
 void RedNeuronal::test()
 {
-    int num_rows_train = l.entradas_entrenamiento.size();
     int num_rows_test = l.entradas_test.size();
-    int num_entradas = l.num_entradas;
     int num_salidas = l.num_salidas;
     
     // Testing
@@ -213,6 +210,10 @@ void RedNeuronal::test()
         feedforward(l.entradas_test[i]);
         for (int j = 0; j < num_salidas; j++)
             error_cuadratico_medio[j] += pow(capa_salida[j] - l.salidas_test[i][j], 2);
+
+        print_tensor(l.entradas_test[i]);
+        print_tensor(l.salidas_test[i]);
+        print_tensor(capa_salida);
     }
 
     // Terminamos de hacer la media
