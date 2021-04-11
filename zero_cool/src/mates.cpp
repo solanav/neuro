@@ -6,6 +6,43 @@
 
 #include "../include/mates.h"
 
+std::vector<float> average_tensors(std::vector<std::vector<float>> tensors)
+{
+    std::vector<float> sum(tensors[0].size(), 0);
+
+    // Calculamos la suma
+    for (int i = 0; i < tensors.size(); i++)
+        for (int j = 0; j < sum.size(); j++)
+            sum[j] += tensors[i][j];
+
+    // Dividimos entre el total
+    for (int i = 0; i < sum.size(); i++)
+        sum[i] /= tensors.size();
+
+    return sum;
+}
+
+std::vector<std::vector<float>> average_tensors(std::vector<std::vector<std::vector<float>>> tensors)
+{
+    std::vector<std::vector<float>> sum(
+        tensors[0].size(),
+        std::vector<float>(tensors[0][0].size(), 0)
+    );
+
+    // Calculamos la suma
+    for (int i = 0; i < tensors.size(); i++)
+        for (int j = 0; j < tensors[0].size(); j++)
+            for (int k = 0; k < tensors[0][0].size(); k++)
+                sum[j][k] += tensors[i][j][k];
+
+    // Dividimos entre el total de tensores
+    for (int i = 0; i < tensors[0].size(); i++)
+        for (int j = 0; j < tensors[0][0].size(); j++)
+        sum[i][j] /= tensors.size();
+
+    return sum;
+}
+
 std::vector<float> dot_product(std::vector<float> x, std::vector<std::vector<float>> y)
 {
     std::vector<float> res;

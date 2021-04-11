@@ -3,6 +3,8 @@
 #include <sstream>
 #include <map>
 #include <cmath>
+#include <chrono>
+#include <algorithm>
 
 #include "red_neuronal.h"
 #include "mates.h"
@@ -162,6 +164,62 @@ void RedNeuronal::aprender(std::vector<float> results)
     os_sesgo = add_tensors(os_sesgo, delta_sw);
 }
 
+void RedNeuronal::aprender2(std::vector<float> results)
+{
+    // Calculamos delta de la neurona de salida
+    std::vector<float> diff = sub_tensors(results, capa_salida);
+    std::vector<float> delta_salida(capa_salida.size());
+    for (int k = 0; k < capa_salida.size(); k++)
+        delta_salida[k] = diff[k] * sigmoide_der(capa_salida_tmp[k], bi);
+
+    // Calculamos la actualizacion de peso de oculta-salida
+    std::vector<std::vector<float>> delta_w(
+        capa_salida.size(),
+        std::vector<float>(capa_oculta.size())
+    );
+    for (int j = 0; j < capa_oculta.size(); j++)
+        for (int k = 0; k < capa_salida.size(); k++)
+            delta_w[k][j] = tasa_aprendizaje * delta_salida[k] * capa_oculta[j];
+
+    // Calculamos la actualizacion de sesgo oculta-salida
+    std::vector<float> delta_sw(capa_salida.size());
+    for (int k = 0; k < capa_salida.size(); k++)
+        delta_sw[k] = tasa_aprendizaje * delta_salida[k];
+
+    // Calculamos el delta intermedio
+    std::vector<float> delta_in(capa_oculta.size(), 0);
+    for (int j = 0; j < capa_oculta.size(); j++)
+        for (int k = 0; k < capa_salida.size(); k++)
+            delta_in[j] += delta_salida[k] * os_peso[k][j];
+
+    // Calculamos el delta de la oculta
+    std::vector<float> delta_oculta(capa_oculta.size());
+    for (int j = 0; j < capa_oculta.size(); j++)
+        delta_oculta[j] = delta_in[j] * sigmoide_der(capa_oculta_tmp[j], bi);
+
+    // Calculamos la correccion del peso de la oculta
+    std::vector<std::vector<float>> delta_v(
+        capa_oculta.size(),
+        std::vector<float>(capa_entrada.size())
+    );
+    for (int i = 0; i < capa_entrada.size(); i++)
+        for (int j = 0; j < capa_oculta.size(); j++)
+            delta_v[j][i] = tasa_aprendizaje * delta_oculta[j] * capa_entrada[i];
+
+    // Calculamos la actualizacion de sesgo entrada-oculta
+    std::vector<float> delta_sv(capa_oculta.size());
+    for (int j = 0; j < capa_oculta.size(); j++)
+        delta_sv[j] = tasa_aprendizaje * delta_oculta[j];
+
+    // Guardamos los deltas de los pesos
+    delta_v_all.push_back(delta_v);
+    delta_w_all.push_back(delta_w);
+
+    // Guardamos los deltas de los sesgos
+    delta_sv_all.push_back(delta_sv);
+    delta_sw_all.push_back(delta_sw);
+}
+
 void RedNeuronal::train()
 {
     int num_rows_train = l.entradas_entrenamiento.size();
@@ -198,22 +256,118 @@ void RedNeuronal::train()
     std::cout << "Epocas: " << epocas << std::endl;
 }
 
+void RedNeuronal::train2()
+{
+    auto start = std::chrono::high_resolution_clock::now();
+    std::srand (unsigned (std::time(0)));
+
+    int num_rows_train = l.entradas_entrenamiento.size();
+    int num_rows_test = l.entradas_test.size();
+    int num_salidas = l.num_salidas;
+
+    int epocas = 0;
+    progressbar bar(max_epocas);
+    for (; epocas < max_epocas; epocas++)
+    {
+        bar.update();
+        
+        // Shuffle training vectors
+        std::random_shuffle(
+            l.entradas_entrenamiento.begin(),
+            l.entradas_entrenamiento.end()
+        );
+
+        std::vector<float> error_cuadratico_medio(num_salidas, 0);
+
+        // Acumulamos los deltas de los pesos
+        for (int i = 0; i < num_rows_train; i++)
+        {
+            feedforward(l.entradas_entrenamiento[i]);
+            aprender2(l.salidas_entrenamiento[i]);
+
+            for (int j = 0; j < num_salidas; j++)
+                error_cuadratico_medio[j] += pow(capa_salida[j] - l.salidas_entrenamiento[i][j], 2);
+        }
+
+        // Gradient descent
+        gradient_descent();
+
+        // Terminamos de hacer la media
+        for (int i = 0; i < num_salidas; i++)
+            error_cuadratico_medio[i] /= num_rows_test;
+
+        // Comprobamos que todo va bien
+        if (error_cuadratico_medio[0] < 0.01)
+            break;
+
+        // Reduce the learning rate
+        tasa_aprendizaje -= tasa_aprendizaje * 1/max_epocas;
+    }
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+
+    std::cout << std::endl;
+    std::cout << "Epocas: " << epocas << std::endl;
+    std::cout << "Tiempo: " << (double) duration.count() / (double) 1000000 << std::endl;
+    std::cout << "Tasa  : " << tasa_aprendizaje << std::endl;
+}
+
+void RedNeuronal::gradient_descent()
+{
+    // Correct entrada-oculta pesos
+    auto delta_v_average = average_tensors(delta_v_all);
+    eo_peso = add_tensors(eo_peso, delta_v_average);
+
+    // Correct oculta-salida pesos
+    auto delta_w_average = average_tensors(delta_w_all);
+    os_peso = add_tensors(os_peso, delta_w_average);
+
+    // Correct entrada-oculta sesgos
+    auto delta_sv_average = average_tensors(delta_sv_all);
+    eo_sesgo = add_tensors(eo_sesgo, delta_sv_average);
+
+    // Correct oculta-salida sesgos
+    auto delta_sw_average = average_tensors(delta_sw_all);
+    os_sesgo = add_tensors(os_sesgo, delta_sw_average);
+
+    // Clean all learning variables, we are starting a new epoch
+    delta_v_all.clear();
+    delta_w_all.clear();
+    delta_sv_all.clear();
+    delta_sw_all.clear();
+}
+
 void RedNeuronal::test()
 {
     int num_rows_test = l.entradas_test.size();
     int num_salidas = l.num_salidas;
+    int aciertos = 0;
     
     // Testing
     std::vector<float> error_cuadratico_medio(num_salidas, 0);
     for (int i = 0; i < num_rows_test; i++)
     {
         feedforward(l.entradas_test[i]);
+
         for (int j = 0; j < num_salidas; j++)
             error_cuadratico_medio[j] += pow(capa_salida[j] - l.salidas_test[i][j], 2);
 
-        print_tensor(l.entradas_test[i]);
-        print_tensor(l.salidas_test[i]);
-        print_tensor(capa_salida);
+        bool correct = true;
+        std::vector<float> output(num_salidas);
+        for (int j = 0; j < num_salidas; j++)
+        {
+            output[j] = capa_salida[j] >= 0.5 ? 1 : 0;
+            if (output[j] != l.salidas_test[i][j])
+                correct = false;
+        }
+
+        // print_tensor(l.entradas_test[i]);
+        // print_tensor(l.salidas_test[i]);
+        // print_tensor(output);
+        // print_tensor(capa_salida);
+
+        if (correct)
+            aciertos++;
     }
 
     // Terminamos de hacer la media
@@ -231,7 +385,8 @@ void RedNeuronal::test()
         << "capa_oculta: " << capa_oculta.size() << "\n"
         << "error_cuadratico_medio: " << error_cuadratico_medio[0] << "\n"
         << "bi: " << bi << "\n"
-        << "tasa_aprendizaje: " << tasa_aprendizaje
+        << "tasa_aprendizaje: " << tasa_aprendizaje << "\n"
+        << "aciertos: " << ((float) aciertos / (float) num_rows_test) * 100.0 << "%"
         << std::endl;
 }
 

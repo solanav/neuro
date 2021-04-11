@@ -7,6 +7,9 @@
 
 #include "lector.h"
 
+#define BIPOLAR 0
+#define BINARIA 1
+
 class RedNeuronal {
 public:
     RedNeuronal(size_t num_oculta, float tasa_aprendizaje, int bi, Lector l, const char* output_file_name, int max_epocas);
@@ -14,7 +17,10 @@ public:
     void feedforward(std::vector<float> entrada);
     void print();
     void aprender(std::vector<float> results);
+    void aprender2(std::vector<float> results);
     void train();
+    void train2();
+    void gradient_descent();
     void test();
 
 private:
@@ -39,6 +45,12 @@ private:
     
     std::vector<float> capa_salida;
     std::vector<float> capa_salida_tmp; // Salida sin pasar por f(x) o f'(x)
+
+    // Learning variables
+    std::vector<std::vector<std::vector<float>>> delta_v_all;
+    std::vector<std::vector<std::vector<float>>> delta_w_all;
+    std::vector<std::vector<float>> delta_sv_all;
+    std::vector<std::vector<float>> delta_sw_all;
 };
 
 #endif
