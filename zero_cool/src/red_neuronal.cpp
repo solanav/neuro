@@ -230,10 +230,10 @@ void RedNeuronal::train()
     int num_salidas = l.num_salidas;
 
     int epocas = 0;
-    progressbar bar(max_epocas);
+    //progressbar bar(max_epocas);
     for (; epocas < max_epocas; epocas++)
     {
-        bar.update();
+        //bar.update();
 
         std::vector<float> error_cuadratico_medio(num_salidas, 0);
         
@@ -250,6 +250,8 @@ void RedNeuronal::train()
         // Terminamos de hacer la media
         for (int i = 0; i < num_salidas; i++)
             error_cuadratico_medio[i] /= num_rows_test;
+
+        std::cout << error_cuadratico_medio[0] << std::endl;
 
         /* Comprobamos que todo va bien
         if (error_cuadratico_medio[0] < 0.01)
@@ -273,10 +275,10 @@ void RedNeuronal::train2()
     int num_salidas = l.num_salidas;
 
     int epocas = 0;
-    progressbar bar(max_epocas);
+    //progressbar bar(max_epocas);
     for (; epocas < max_epocas; epocas++)
     {
-        bar.update();
+        //bar.update();
 
         std::vector<float> error_cuadratico_medio(num_salidas, 0);
 
@@ -296,6 +298,8 @@ void RedNeuronal::train2()
         // Terminamos de hacer la media
         for (int i = 0; i < num_salidas; i++)
             error_cuadratico_medio[i] /= num_rows_test;
+
+        std::cout << error_cuadratico_medio[0] << std::endl;
 
         /* Comprobamos que todo va bien
         if (error_cuadratico_medio[0] < 0.01)
