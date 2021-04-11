@@ -99,13 +99,13 @@ delta_v[j][i] = tasa_aprendizaje * delta_oculta[j] * capa_entrada[i]
 |data/problema_real2.txt|2|6|0.5|1|0|1000|0.118852|470|89|89|470|84.0787|
 |data/problema_real2.txt|2|7|0.4|1|0|1000|0.116255|472|87|87|472|84.4365|
 |data/problema_real2.txt|2|6|0.4|0|0|5000|0.136935|482|147|77|412|79.9642|
-|data/problema_real2.txt|2|6|0.4|1|0|5000|0.103789|486|73|73|486|86.941|
+|**data/problema_real2.txt**|**2**|**6**|**0.4**|**1**|**0**|**5000**|**0.103789**|**486**|**73**|**73**|**486**|**86.941**|
 |data/problema_real3.txt|2|2|0.4|1|0|5000|8.05E-06|141|9|9|291|96|
 |data/problema_real3.txt|2|3|0.4|1|0|5000|8.13E-06|140|10|10|290|95.3333|
 |data/problema_real3.txt|2|4|0.4|1|0|5000|8.38E-06|148|2|2|298|98.6667|
-|data/problema_real3.txt|2|6|0.4|1|0|5000|6.46E-06|149|1|1|299|99.3333|
+|**data/problema_real3.txt**|**2**|**6**|**0.4**|**1**|**0**|**5000**|**6.46E-06**|**149**|**1**|**1**|**299**|**99.3333**|
 |data/problema_real5.txt|2|6|0.4|1|0|5000|0.00116414|434|1|1|434|99.7701|
-|data/problema_real5.txt|2|6|0.2|1|0|5000|2.27E-05|435|0|0|435|100|
+|**data/problema_real5.txt**|**2**|**6**|**0.2**|**1**|**0**|**5000**|**2.27E-05**|**435**|**0**|**0**|**435**|**100**|
 
 <br>
 
@@ -131,7 +131,7 @@ También hemos descubierto que el uso de menos neuronas, no reduce demasiado los
 |Fichero Datos|Modo Lectura|Capa oculta|Tasa aprendizaje|Bipolar Binaria|Algoritmo|Max iter|Error Medio|TP|FP|FN|TN|Acierto (%)|
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 |data/problema_real4.txt|2|6|0.1|1|1|100|0.231593|455|240|244|459|65.3791|
-|data/problema_real4.txt|2|6|0.4|1|1|1000|0.190318|520|179|179|520|74.392|
+|**data/problema_real4.txt**|**2**|**6**|**0.4**|**1**|**1**|**1000**|**0.190318**|**520**|**179**|**179**|**520**|**74.392**|
 |data/problema_real4.txt|2|12|0.4|1|1|1000|0.212386|471|230|228|469|67.2389|
 |data/problema_real4.txt|2|20|0.4|1|1|1000|0.212206|472|236|227|463|66.8097|
 
@@ -154,7 +154,7 @@ Y la hemos aplicado a todos los valores de entrada.
 |data/problema_real4.txt|2|6|0.1|1|1|100|0.214154|460|241|239|458|65.6652|
 |data/problema_real4.txt|2|6|0.1|1|1|1000|0.0477582|669|32|30|667|95.5651|
 |data/problema_real4.txt|2|6|0.1|1|1|5000|0.0252849|679|22|20|677|96.9957|
-|data/problema_real4.txt|2|12|0.1|1|1|5000|0.0250298|679|20|20|679|97.1388|
+|**data/problema_real4.txt**|**2**|**12**|**0.1**|**1**|**1**|**5000**|**0.0250298**|**679**|**20**|**20**|**679**|**97.1388**|
 |data/problema_real4.txt|2|20|0.1|1|1|5000|0.024576|679|22|20|677|96.9957|
 |data/problema_real4.txt|2|10|0.1|1|1|5000|0.0253082|678|20|21|679|96.9957|
 |data/problema_real4.txt|2|14|0.1|1|1|5000|0.0247694|677|20|22|679|96.9957|
@@ -166,4 +166,13 @@ Se puede ver que el salto ha sido extremadamente grande: 74% -> 97%
 ## Problema 6
 
 En el problema 6, debido a la longitud de las pruebas, no hemos probado sin normalización. Hemos asumido que la normalización ha quedado demostrada como beneficiosa en el problema 4.
+
+|Fichero Datos|Modo Lectura|Capa oculta|Tasa aprendizaje|Bipolar Binaria|Algoritmo|Max iter|Error Medio|TP|FP|FN|TN|Acierto(%)|
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|**---**|**---**|**---**|**---**|**---**|**---**|**---**|**---**|**---**|**---**|**---**|**---**|**---**|
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
 
