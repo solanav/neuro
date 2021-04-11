@@ -8,6 +8,12 @@ OBJ=./obj/
 PROF=./prof/
 FILENAME:=$(shell date +%Y-%m-%d_%H-%M-%S)
 
+ejecuta_problema_real6:
+	make clean
+	make all
+	@echo "[ATENCION] Tiempo aproximado: 1 hora y 16 minutos"
+	./main data/problema_real6.txt 2 20 0.1 1 0 5000
+
 compilar: all
 
 all: create_obj main

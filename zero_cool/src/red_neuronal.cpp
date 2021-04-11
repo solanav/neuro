@@ -222,6 +222,9 @@ void RedNeuronal::aprender2(std::vector<float> results)
 
 void RedNeuronal::train()
 {
+    auto start = std::chrono::high_resolution_clock::now();
+    std::srand (unsigned (std::time(0)));
+
     int num_rows_train = l.entradas_entrenamiento.size();
     int num_rows_test = l.entradas_test.size();
     int num_salidas = l.num_salidas;
@@ -248,12 +251,16 @@ void RedNeuronal::train()
         for (int i = 0; i < num_salidas; i++)
             error_cuadratico_medio[i] /= num_rows_test;
 
-        // Comprobamos que todo va bien
+        /* Comprobamos que todo va bien
         if (error_cuadratico_medio[0] < 0.01)
-            break;
+            break;*/
     }
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+
     std::cout << std::endl;
     std::cout << "Epocas: " << epocas << std::endl;
+    std::cout << "Tiempo: " << (double) duration.count() / (double) 1000000 << std::endl;
 }
 
 void RedNeuronal::train2()
@@ -270,12 +277,6 @@ void RedNeuronal::train2()
     for (; epocas < max_epocas; epocas++)
     {
         bar.update();
-        
-        // Shuffle training vectors
-        std::random_shuffle(
-            l.entradas_entrenamiento.begin(),
-            l.entradas_entrenamiento.end()
-        );
 
         std::vector<float> error_cuadratico_medio(num_salidas, 0);
 
@@ -296,12 +297,12 @@ void RedNeuronal::train2()
         for (int i = 0; i < num_salidas; i++)
             error_cuadratico_medio[i] /= num_rows_test;
 
-        // Comprobamos que todo va bien
+        /* Comprobamos que todo va bien
         if (error_cuadratico_medio[0] < 0.01)
-            break;
+            break;*/
 
         // Reduce the learning rate
-        tasa_aprendizaje -= tasa_aprendizaje * 1/max_epocas;
+        //tasa_aprendizaje -= tasa_aprendizaje * 1/max_epocas;
     }
     auto stop = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
@@ -341,7 +342,11 @@ void RedNeuronal::test()
 {
     int num_rows_test = l.entradas_test.size();
     int num_salidas = l.num_salidas;
-    int aciertos = 0;
+
+    int tp = 0;
+    int fp = 0;
+    int fn = 0;
+    int tn = 0;
     
     // Testing
     std::vector<float> error_cuadratico_medio(num_salidas, 0);
@@ -352,22 +357,28 @@ void RedNeuronal::test()
         for (int j = 0; j < num_salidas; j++)
             error_cuadratico_medio[j] += pow(capa_salida[j] - l.salidas_test[i][j], 2);
 
-        bool correct = true;
         std::vector<float> output(num_salidas);
         for (int j = 0; j < num_salidas; j++)
         {
             output[j] = capa_salida[j] >= 0.5 ? 1 : 0;
-            if (output[j] != l.salidas_test[i][j])
-                correct = false;
+
+            auto prediction = output[j];
+            auto reality = l.salidas_test[i][j];
+
+            if (prediction == 1 and reality == 1)
+                tp++;
+            else if (prediction == 1 and reality == 0)
+                fp++;
+            else if (prediction == 0 and reality == 0)
+                tn++;
+            else if (prediction == 0 and reality == 1)
+                fn++;
         }
 
         // print_tensor(l.entradas_test[i]);
         // print_tensor(l.salidas_test[i]);
         // print_tensor(output);
         // print_tensor(capa_salida);
-
-        if (correct)
-            aciertos++;
     }
 
     // Terminamos de hacer la media
@@ -381,11 +392,25 @@ void RedNeuronal::test()
         << tasa_aprendizaje
         << std::endl;
     
+    auto aciertos = (tp + tn) / num_salidas;
+
+    std::cout
+        << error_cuadratico_medio[0] << ","
+        << tp << ","
+        << fp << ","
+        << fn << ","
+        << tn << ","
+        << ((float) aciertos / (float) num_rows_test) * 100.0 << "\n\n"
+        << std::endl;
+
     std::cout
         << "capa_oculta: " << capa_oculta.size() << "\n"
         << "error_cuadratico_medio: " << error_cuadratico_medio[0] << "\n"
         << "bi: " << bi << "\n"
         << "tasa_aprendizaje: " << tasa_aprendizaje << "\n"
+        << "matriz de confusion: " << "\n"
+        << "| " << tp << " | " << fp << " |" << "\n"
+        << "| " << fn << " | " << tn << " |" << "\n"
         << "aciertos: " << ((float) aciertos / (float) num_rows_test) * 100.0 << "%"
         << std::endl;
 }

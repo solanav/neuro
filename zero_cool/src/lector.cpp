@@ -6,6 +6,7 @@
 #include <iterator>
 
 #include "lector.h"
+#include "mates.h"
 
 Lector::Lector()
 {
@@ -40,7 +41,37 @@ std::vector<float> dataToFloat(std::vector<std::string> s, int start, int finish
     return res;
 }
 
-void Lector::leer(char *fichero)
+std::vector<float> tensor_max(std::vector<std::vector<float>> tensor1, std::vector<std::vector<float>> tensor2)
+{
+    std::vector<float> max(tensor1[0].size(), -1);
+
+    for (int i = 0; i < tensor1.size(); i++)
+        for (int j = 0; j < tensor1[i].size(); j++)
+            if (tensor1[i][j] > max[j])
+                max[j] = tensor1[i][j];
+
+    for (int i = 0; i < tensor2.size(); i++)
+        for (int j = 0; j < tensor2[i].size(); j++)
+            if (tensor2[i][j] > max[j])
+                max[j] = tensor2[i][j];
+
+    return max;
+}
+
+void Lector::normalize()
+{
+    std::vector<float> max = tensor_max(entradas_entrenamiento, entradas_test);
+
+    for (int i = 0; i < entradas_entrenamiento.size(); i++)
+        for (int j = 0; j <  entradas_entrenamiento[0].size(); j++)
+            entradas_entrenamiento[i][j] = ((entradas_entrenamiento[i][j] / max[j]) * 2.0) - 1.0;
+
+    for (int i = 0; i < entradas_test.size(); i++)
+        for (int j = 0; j <  entradas_test[0].size(); j++)
+            entradas_test[i][j] = ((entradas_test[i][j] / max[j]) * 2.0) - 1.0;
+}
+
+void Lector::leer(const char *fichero)
 {
     std::string line;
     char c, *arr;
@@ -59,9 +90,8 @@ void Lector::leer(char *fichero)
     infile.close();
 }
 
-void Lector::leer1(char *fichero, float por)
+void Lector::leer1(const char *fichero, float por)
 {
-
     leer(fichero);
 
     int num_entreno = data.size() * por;
@@ -70,7 +100,7 @@ void Lector::leer1(char *fichero, float por)
     std::vector<float> v_aux = std::vector<float>();
     std::vector<std::string> stuff;
 
-    std::random_shuffle ( data.begin(), data.end() );
+    std::random_shuffle (data.begin(), data.end());
 
     for (int i = 0; i < num_entreno; i++)
     {
@@ -100,7 +130,7 @@ void Lector::leer1(char *fichero, float por)
     }
 }
 
-void Lector::leer2(char * fichero){
+void Lector::leer2(const char * fichero){
     leer(fichero);
 
     std::string s_aux;
@@ -121,7 +151,7 @@ void Lector::leer2(char * fichero){
     }
 }
 
-void Lector::leer3(char *fichero_entreno, char *fichero_test){
+void Lector::leer3(const char *fichero_entreno, const char *fichero_test){
     leer(fichero_entreno);
 
     std::string s_aux;

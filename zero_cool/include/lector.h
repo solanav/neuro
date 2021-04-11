@@ -8,11 +8,12 @@ class Lector {
 public:
     Lector();
     ~Lector();
-    void leer1(char *fichero, float por);
-    void leer2(char *fichero);
-    void leer3(char *fichero_entreno, char *fichero_test);
+    void leer1(const char *fichero, float por);
+    void leer2(const char *fichero);
+    void leer3(const char *fichero_entreno, const char *fichero_test);
+    void normalize();
 private:
-    void leer(char *fichero);
+    void leer(const char *fichero);
 
 public:
     std::vector<std::vector<float>> entradas_entrenamiento;
